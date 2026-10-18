@@ -1,5 +1,0 @@
-# The admin dashboard lives ONLY on the protected Cloudflare Worker.
-# On this public mirror, send anyone looking for it back to the homepage.
-/admin      /  302
-/admin.html /  302
-/admin/*    /  302

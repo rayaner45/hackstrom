@@ -1,68 +1,76 @@
 # HACKSTROM — Security & Admin
 
 ## Admin access
-- **URL:** https://hackstrom.fahemrayane.workers.dev/admin
-- Authentication is enforced **on the server** (Cloudflare Worker):
-  - correct password → signed `HttpOnly; Secure; SameSite=Strict` session cookie (8 h),
-  - the admin HTML is **never** sent to unauthenticated visitors (401 login page instead).
-- The public mirror **https://hackstrom.pages.dev** does **not** contain the admin page.
+The dashboard is protected **on the server** — the admin HTML is never sent to
+unauthenticated visitors (they get a `401` login page instead).
 
-## Public mirror (pages.dev)
-`https://hackstrom.pages.dev` is a **static, admin-free** mirror.
-Its upload contains a `_redirects` file that sends `/admin`, `/admin.html`
-and `/admin/*` back to `/` (302). The admin page is **never** uploaded there.
+| Host | Protected by |
+|---|---|
+| **https://hackstrom.pages.dev/admin** | Pages Advanced Mode (`_worker.js`) |
+| https://hackstrom.fahemrayane.workers.dev/admin | Cloudflare Worker (`src/worker.js`) |
 
-Rebuild + deploy the mirror with:
-```bash
-rm -rf /tmp/hs-public
-mkdir -p /tmp/hs-public/src/css /tmp/hs-public/src/js /tmp/hs-public/data
-cp index.html robots.txt _headers /tmp/hs-public/
-cp data/leaderboard.json /tmp/hs-public/data/
-cp src/css/main.css /tmp/hs-public/src/css/
-cp src/js/main.js src/js/loader.js /tmp/hs-public/src/js/
-cp deploy/pages/admin.html /tmp/hs-public/admin.html   # harmless redirect page
-cp deploy/pages/_redirects  /tmp/hs-public/_redirects
-npx wrangler pages deploy /tmp/hs-public --project-name hackstrom --branch main
-```
+Both behave the same:
+- wrong password → `401`
+- correct password → `303` + signed `HttpOnly; Secure; SameSite=Strict` cookie (8 h)
+- `/admin.html` → `308` redirect to `/admin`
+- `/admin/logout` → clears the session
+- responses are `Cache-Control: no-store`, `X-Robots-Tag: noindex`
 
-## Secrets (Cloudflare Worker)
+## How it works
+The same logic (`src/worker.js`) runs in two places:
+1. **Worker** — `wrangler.toml` → `main = "src/worker.js"`, assets binding `ASSETS`.
+2. **Pages** — `scripts/deploy-pages.sh` copies it to `_worker.js` in the upload dir.
 
-| Secret | Purpose |
+Required secrets (set once, per platform):
+
+| Secret | Meaning |
 |---|---|
 | `ADMIN_PASSWORD_HASH` | hex SHA‑256 of the admin password |
 | `SESSION_SECRET`      | random key used to sign session cookies |
 
-### Rotate the admin password
 ```bash
-# 1) update the server-side hash
-printf '%s' 'NEW_PASSWORD' | sha256sum | cut -d' ' -f1 \
-  | npx wrangler secret put ADMIN_PASSWORD_HASH
+# Worker
+printf '%s' "$HASH" | npx wrangler secret put ADMIN_PASSWORD_HASH
+printf '%s' "$KEY"  | npx wrangler secret put SESSION_SECRET
 
-# 2) update the client-side fallback (src/js/admin.js → PASS_SALT / PASS_KEY)
+# Pages
+printf '%s' "$HASH" | npx wrangler pages secret put ADMIN_PASSWORD_HASH --project-name hackstrom
+printf '%s' "$KEY"  | npx wrangler pages secret put SESSION_SECRET --project-name hackstrom
+```
+
+## Deploy
+```bash
+bash scripts/deploy-pages.sh          # public site + protected admin (Pages)
+npx wrangler deploy                   # Worker  (also auto-deploys from Git on push)
+```
+
+## Rotate the admin password
+```bash
+# 1) server-side hash (do it for BOTH worker and pages, see above)
+printf '%s' 'NEW_PASSWORD' | sha256sum | cut -d' ' -f1
+
+# 2) client-side fallback in src/js/admin.js → PASS_SALT / PASS_KEY
 python3 -c "import os,hashlib; s=os.urandom(16).hex(); \
   print('PASS_SALT =', repr(s)); \
   print('PASS_KEY  =', repr(hashlib.pbkdf2_hmac('sha256', b'NEW_PASSWORD', s.encode(), 200000, 32).hex()))"
 ```
 
-### Rotate the session-signing key
+## Rotate the session-signing key
 ```bash
-openssl rand -hex 32 | npx wrangler secret put SESSION_SECRET
+openssl rand -hex 32
 ```
 
 ## Hardening applied
-- **Strict CSP** — `script-src 'self'` (no `'unsafe-inline'` for scripts).
-- All inline scripts extracted to external files (`src/js/loader.js`, `src/js/admin.js`).
-- **XSS fixes** — badge/name/avatar values are escaped (`esc`/`escAttr`); numbers coerced.
-- **SRI** on the jsDelivr icon stylesheet.
-- **Headers** — HSTS, `X-Frame-Options: DENY`, `nosniff`, `Referrer-Policy`,
+- Strict CSP — `script-src 'self'` (no `'unsafe-inline'`), `object-src 'none'`.
+- All inline scripts extracted (`src/js/loader.js`, `src/js/admin.js`).
+- XSS-safe rendering (`esc` / `escAttr`, numeric coercion).
+- SRI on the jsDelivr icon stylesheet.
+- Headers: HSTS, `X-Frame-Options: DENY`, `nosniff`, `Referrer-Policy`,
   `Permissions-Policy`, `COOP`, `CORP`, `X-Permitted-Cross-Domain-Policies: none`.
 - `robots.txt` disallows `/admin`.
-- `.assetsignore` blocks `.git`, `.wrangler`, `wrangler.toml` and `src/worker.js`
-  from ever being served as static assets.
+- `.assetsignore` keeps `.git`, `.wrangler`, `wrangler.toml`, `src/worker.js`
+  out of the served assets.
 
 ## GitHub token
-Use a **Fine-grained personal access token** limited to:
-- Repository access → only `rayaner45/hackstrom`
-- Permissions → Repository permissions → **Contents: Read and write** (nothing else).
-
-Never commit a token or the admin password to the repository.
+Use a **Fine-grained** token limited to repository `rayaner45/hackstrom`
+with **Contents: Read and write** only. Never commit a token or the password.
