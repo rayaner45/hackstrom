@@ -8,3 +8,5 @@ compatibility_date = "2025-01-01"
 directory = "."
 binding = "ASSETS"
 run_worker_first = true
+# Unknown paths return a real 404 (styled 404.html) — never the SPA fallback.
+not_found_handling = "404-page"

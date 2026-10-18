@@ -67,7 +67,9 @@ openssl rand -hex 32
 - SRI on the jsDelivr icon stylesheet.
 - Headers: HSTS, `X-Frame-Options: DENY`, `nosniff`, `Referrer-Policy`,
   `Permissions-Policy`, `COOP`, `CORP`, `X-Permitted-Cross-Domain-Policies: none`.
-- `robots.txt` disallows `/admin`.
+- Unknown paths return a **real `404`** (styled `404.html`,
+  `not_found_handling = "404-page"`) — never the SPA fallback / homepage.
+  `robots.txt` disallows `/admin`.
 - `.assetsignore` keeps `.git`, `.wrangler`, `wrangler.toml`, `src/worker.js`
   out of the served assets.
 

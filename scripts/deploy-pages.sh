@@ -14,7 +14,7 @@ OUT="/tmp/hs-public"
 rm -rf "$OUT"
 mkdir -p "$OUT/src/css" "$OUT/src/js" "$OUT/data"
 
-cp index.html admin.html robots.txt _headers "$OUT/"
+cp index.html admin.html 404.html robots.txt _headers "$OUT/"
 cp src/css/main.css "$OUT/src/css/"
 cp src/js/main.js src/js/loader.js src/js/admin.js "$OUT/src/js/"
 cp data/leaderboard.json "$OUT/data/"
