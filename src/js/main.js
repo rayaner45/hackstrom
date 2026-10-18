@@ -264,7 +264,7 @@
   function renderLeaderboard(data) {
     // Fill podium (top 3)
     [1, 2, 3].forEach(function (rank) {
-      var player = data.find(function (d) { return d.rank === rank; });
+      var player = data.find(function (d) { return safeNum(d.rank) === rank; });
       if (!player) return;
       var card = document.querySelector('.lb__podium-card[data-rank="' + rank + '"]');
       if (!card) return;
@@ -272,12 +272,14 @@
       var ptsEl = card.querySelector(".lb__podium-points");
       var badgeEl = card.querySelector(".lb__podium-badge");
       var avEl = card.querySelector(".lb__podium-avatar");
-      if (nameEl) nameEl.textContent = player.name;
-      if (ptsEl) ptsEl.textContent = player.points.toLocaleString() + " pts";
-      if (badgeEl && player.badge) badgeEl.textContent = player.badge;
+      if (nameEl) nameEl.textContent = player.name || "";
+      if (ptsEl) ptsEl.textContent = safeNum(player.points).toLocaleString() + " pts";
+      if (badgeEl) badgeEl.textContent = player.badge || "";
       if (avEl) {
         if (player.avatar) {
-          avEl.innerHTML = '<img src="' + String(player.avatar).replace(/"/g, "&quot;") + '" alt="">';
+          avEl.innerHTML = '<img src="' + escAttr(player.avatar) + '" alt="">';
+          var pimg = avEl.querySelector("img");
+          if (pimg) pimg.addEventListener("error", function () { pimg.remove(); });
         } else {
           avEl.innerHTML = '<i class="bi bi-person-fill"></i>';
         }
@@ -290,25 +292,42 @@
     tbody.innerHTML = "";
     data.forEach(function (p) {
       var tr = document.createElement("tr");
-      var rankClass = p.rank <= 3 ? " lb__rank--" + p.rank : "";
+      var rk = safeNum(p.rank);
+      var rankClass = rk <= 3 ? " lb__rank--" + rk : "";
       var avatarHTML = '<span class="lb__player-avatar">' + (p.avatar
-        ? '<img src="' + String(p.avatar).replace(/"/g, "&quot;") + '" alt="" onerror="this.remove()">'
+        ? '<img src="' + escAttr(p.avatar) + '" alt="">'
         : '<i class="bi bi-person-fill"></i>') + "</span>";
 
       tr.innerHTML =
-        '<td><span class="lb__rank' + rankClass + '">#' + p.rank + "</span></td>" +
+        '<td><span class="lb__rank' + rankClass + '">#' + rk + "</span></td>" +
         '<td><div class="lb__player">' + avatarHTML +
-        '<span class="lb__player-name">' + escHTML(p.name) + "</span></div></td>" +
-        '<td><span class="lb__pts">' + p.points.toLocaleString() + "</span></td>" +
-        '<td><span class="lb__badge-cell">' + (p.badge || "—") + "</span></td>";
+        '<span class="lb__player-name">' + escHTML(player.name || "") + "</span></div></td>" +
+        '<td><span class="lb__pts">' + safeNum(player.points).toLocaleString() + "</span></td>" +
+        '<td><span class="lb__badge-cell">' + escHTML(player.badge || "—") + "</span></td>";
       tbody.appendChild(tr);
     });
   }
 
   function escHTML(s) {
     var d = document.createElement("div");
-    d.textContent = s;
+    d.textContent = String(s == null ? "" : s);
     return d.innerHTML;
+  }
+
+  // Escape a value for safe use inside a quoted HTML attribute
+  function escAttr(s) {
+    return String(s == null ? "" : s)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
+
+  // Coerce to a finite number (guards against hostile / malformed data)
+  function safeNum(n) {
+    var v = Number(n);
+    return isFinite(v) ? v : 0;
   }
 
   // Load when the section is near viewport

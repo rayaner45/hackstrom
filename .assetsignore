@@ -2,6 +2,8 @@
 .git
 .gitignore
 .assetsignore
+.wrangler
 wrangler.toml
 wrangler.jsonc
 node_modules
+src/worker.js

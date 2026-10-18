@@ -1,6 +1,10 @@
 name = "hackstrom"
+main = "src/worker.js"
 compatibility_date = "2025-01-01"
 
-# Serve the repository as static assets (no Worker script needed)
+# Serve the repository as static assets through the Worker (binding: ASSETS).
+# The Worker gates /admin on the server; everything else is served statically.
 [assets]
 directory = "."
+binding = "ASSETS"
+run_worker_first = true
