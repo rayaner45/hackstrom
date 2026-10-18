@@ -1,14 +1,9 @@
 [
-  { "rank": 1,  "name": "ShadowX",       "avatar": "", "points": 9850, "badge": "👑", "discord_id": "" },
-  { "rank": 2,  "name": "CyberWolf",      "avatar": "", "points": 8720, "badge": "🥇", "discord_id": "" },
-  { "rank": 3,  "name": "ZeroCool",       "avatar": "", "points": 7460, "badge": "🥈", "discord_id": "" },
-  { "rank": 4,  "name": "NeonHacker",     "avatar": "", "points": 6890, "badge": "🥉", "discord_id": "" },
-  { "rank": 5,  "name": "DarkPhoenix",    "avatar": "", "points": 5340, "badge": "", "discord_id": "" },
-  { "rank": 6,  "name": "GhostByte",      "avatar": "", "points": 4810, "badge": "", "discord_id": "" },
-  { "rank": 7,  "name": "CipherKing",     "avatar": "", "points": 3950, "badge": "", "discord_id": "" },
-  { "rank": 8,  "name": "BinaryQueen",    "avatar": "", "points": 3200, "badge": "", "discord_id": "" },
-  { "rank": 9,  "name": "NullPointer",    "avatar": "", "points": 2780, "badge": "", "discord_id": "" },
-  { "rank": 10, "name": "RootAccess",     "avatar": "", "points": 1960, "badge": "", "discord_id": "" },
-  { "rank": 11, "name": "PacketStorm",    "avatar": "", "points": 1540, "badge": "", "discord_id": "" },
-  { "rank": 12, "name": "SQL Slayer",     "avatar": "", "points": 1200, "badge": "", "discord_id": "" }
+  {
+    "name": "⚜️ ＹＡＨＹＡ DABLYOU ⚜️",
+    "points": 100,
+    "badge": "👑",
+    "avatar": "",
+    "rank": 1
+  }
 ]
