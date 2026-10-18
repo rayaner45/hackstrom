@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0a0a1a">
+  <title>HACKSTROM | Elite Cybersecurity Solutions</title>
+  <meta name="description" content="HACKSTROM - Elite cybersecurity agency delivering advanced threat protection, penetration testing, incident response & 24/7 security monitoring.">
+  <meta name="keywords" content="cybersecurity, pentesting, ethical hacking, red team, blue team, SOC, threat detection, incident response, HACKSTROM">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta http-equiv="X-Frame-Options" content="DENY">
+  <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=()">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; font-src https://fonts.gstatic.com https://cdn.jsdelivr.net; img-src 'self' data: https:; connect-src 'self' https://api.github.com https://raw.githubusercontent.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'">
+  <meta http-equiv="Strict-Transport-Security" content="max-age=31536000; includeSubDomains">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="robots" content="index, follow">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&family=Chakra+Petch:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="./src/css/main.css">
+
+  <script>
+    (function(){function k(){var l=document.getElementById('loader');if(l)l.style.cssText='display:none!important;';document.body.classList.remove('is-loading')}setTimeout(k,1200);setTimeout(k,1800);document.addEventListener('DOMContentLoaded',function(){setTimeout(k,300)});window.addEventListener('load',k)})();
+  </script>
+</head>
+<body class="is-loading">
+
+  <!-- ======== LOADER ======== -->
+  <div id="loader" class="loader">
+    <div class="loader__orb"></div>
+    <div class="loader__ring loader__ring--1"></div>
+    <div class="loader__ring loader__ring--2"></div>
+    <div class="loader__ring loader__ring--3"></div>
+    <p class="loader__text" data-en="[ HACKSTROM ] INITIALIZING..." data-ar="[ هاكستروم ] جاري التهيئة...">[ HACKSTROM ] INITIALIZING...</p>
+  </div>
+
+  <!-- ======== BACKGROUND ======== -->
+  <canvas id="fxCanvas" class="bg__canvas"></canvas>
+  <div class="bg__gradient"></div>
+  <div class="bg__grid"></div>
+
+  <!-- ======== NAVBAR ======== -->
+  <header class="header" id="header">
+    <nav class="nav container">
+      <a href="#hero" class="logo">
+        <div class="logo__icon">
+          <i class="bi bi-shield-lock-fill"></i>
+        </div>
+        <div class="logo__text">
+          <span class="logo__name">HACKSTROM</span>
+          <span class="logo__tag" data-en="CYBERSECURITY" data-ar="الأمن السيبراني">CYBERSECURITY</span>
+        </div>
+      </a>
+
+      <div class="nav__menu" id="navMenu">
+        <a href="#hero" class="nav__link active" data-en="Home" data-ar="الرئيسية">Home</a>
+        <a href="#services" class="nav__link" data-en="Services" data-ar="الخدمات">Services</a>
+        <a href="#about" class="nav__link" data-en="About" data-ar="من نحن">About</a>
+        <a href="#process" class="nav__link" data-en="Process" data-ar="المنهجية">Process</a>
+        <a href="#stats" class="nav__link" data-en="Stats" data-ar="الأرقام">Stats</a>
+        <a href="#leaderboard" class="nav__link" data-en="Leaderboard" data-ar="الترتيب">Leaderboard</a>
+        <a href="#faq" class="nav__link" data-en="FAQ" data-ar="الأسئلة">FAQ</a>
+        <a href="#contact" class="nav__link nav__link--cta" data-en="Contact Us" data-ar="تواصل معنا">Contact Us</a>
+      </div>
+
+      <div class="nav__actions">
+        <button class="lang-toggle" id="langToggle" aria-label="Switch Language">
+          <i class="bi bi-globe2"></i>
+          <span id="langLabel">AR</span>
+        </button>
+        <button class="nav__burger" id="navBurger" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- ======== HERO ======== -->
+  <section class="hero" id="hero">
+    <div class="container hero__inner">
+      <div class="hero__badge reveal">
+        <span class="hero__badge-dot"></span>
+        <span data-en="ELITE CYBERSECURITY UNIT" data-ar="وحدة الأمن السيبراني النخبة">ELITE CYBERSECURITY UNIT</span>
+      </div>
+
+      <h1 class="hero__title reveal">
+        <span class="hero__title-top" data-en="WE" data-ar="نحن">WE</span>
+        <span class="hero__title-mid" data-en="DEFEND" data-ar="نحمّي">DEFEND</span>
+        <span class="hero__title-bot" data-en="THE DIGITAL FRONT" data-ar="العهد الرقمي">THE DIGITAL FRONT</span>
+      </h1>
+
+      <p class="hero__desc reveal" data-en="Elite penetration testing, threat detection, incident response, and 24/7 SOC monitoring — engineered for organizations that refuse to be breached." data-ar="اختبار اختراق نخبة، كشف التهديدات، الاستجابة للحوادث، ومراقبة مركز العمليات الأمنية 24/7 — مصممة للمؤسسات التي ترفض أن تُخترق.">Elite penetration testing, threat detection, incident response, and 24/7 SOC monitoring — engineered for organizations that refuse to be breached.</p>
+
+      <div class="hero__actions reveal">
+        <a href="#contact" class="btn btn--primary">
+          <i class="bi bi-rocket-takeoff"></i>
+          <span data-en="START FREE AUDIT" data-ar="ابدأ تقييماً مجانياً">START FREE AUDIT</span>
+        </a>
+        <a href="#services" class="btn btn--outline">
+          <i class="bi bi-grid-3x3-gap"></i>
+          <span data-en="EXPLORE SERVICES" data-ar="استكشف الخدمات">EXPLORE SERVICES</span>
+        </a>
+      </div>
+
+      <div class="hero__trust reveal">
+        <div class="hero__trust-item">
+          <i class="bi bi-patch-check-fill"></i>
+          <span data-en="OSCP Certified" data-ar="معتمد OSCP">OSCP Certified</span>
+        </div>
+        <div class="hero__trust-item">
+          <i class="bi bi-patch-check-fill"></i>
+          <span data-en="ISO 27001" data-ar="آيزو 27001">ISO 27001</span>
+        </div>
+        <div class="hero__trust-item">
+          <i class="bi bi-patch-check-fill"></i>
+          <span data-en="CISSP Team" data-ar="فريق CISSP">CISSP Team</span>
+        </div>
+        <div class="hero__trust-item">
+          <i class="bi bi-patch-check-fill"></i>
+          <span data-en="CREST Approved" data-ar="معتمد CREST">CREST Approved</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Floating terminal -->
+    <div class="hero__terminal reveal" id="heroTerminal">
+      <div class="term__header">
+        <div class="term__dots"><span></span><span></span><span></span></div>
+        <span class="term__title">hackstrom@defense:~</span>
+        <span class="term__badge">LIVE</span>
+      </div>
+      <div class="term__body" id="termBody">
+        <div class="term__line"><span class="term__p">&gt;</span> <span data-en="Initializing security modules..." data-ar="جاري تهيئة الوحدات الأمنية...">Initializing security modules...</span></div>
+        <div class="term__line term__line--ok">[OK] <span data-en="Firewall: ACTIVE" data-ar="جدار الحماية: نشط">Firewall: ACTIVE</span></div>
+        <div class="term__line term__line--ok">[OK] <span data-en="WAF: PROTECTING" data-ar="واف: يحمي">WAF: PROTECTING</span></div>
+        <div class="term__line term__line--ok">[OK] <span data-en="Encryption: AES-256" data-ar="التشفير: AES-256">Encryption: AES-256</span></div>
+        <div class="term__line term__line--warn">[SCAN] <span data-en="Threat detection: REAL-TIME" data-ar="كشف التهديدات: فوري">Threat detection: REAL-TIME</span></div>
+        <div class="term__line term__line--accent">[SECURE] <span data-en="All systems protected" data-ar="جميع الأنظمة محمية">All systems protected</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======== MARQUEE ======== -->
+  <div class="marquee">
+    <div class="marquee__track">
+      <span class="marquee__item">PENETRATION TESTING</span><span class="marquee__sep">//</span>
+      <span class="marquee__item">RED TEAM OPS</span><span class="marquee__sep">//</span>
+      <span class="marquee__item">SOC MONITORING</span><span class="marquee__sep">//</span>
+      <span class="marquee__item">INCIDENT RESPONSE</span><span class="marquee__sep">//</span>
+      <span class="marquee__item">CLOUD SECURITY</span><span class="marquee__sep">//</span>
+      <span class="marquee__item">DIGITAL FORENSICS</span><span class="marquee__sep">//</span>
+      <span class="marquee__item">THREAT INTEL</span><span class="marquee__sep">//</span>
+      <span class="marquee__item">ZERO TRUST</span><span class="marquee__sep">//</span>
+      <span class="marquee__item">PENETRATION TESTING</span><span class="marquee__sep">//</span>
+      <span class="marquee__item">RED TEAM OPS</span><span class="marquee__sep">//</span>
+      <span class="marquee__item">SOC MONITORING</span><span class="marquee__sep">//</span>
+      <span class="marquee__item">INCIDENT RESPONSE</span><span class="marquee__sep">//</span>
+      <span class="marquee__item">CLOUD SECURITY</span><span class="marquee__sep">//</span>
+      <span class="marquee__item">DIGITAL FORENSICS</span><span class="marquee__sep">//</span>
+      <span class="marquee__item">THREAT INTEL</span><span class="marquee__sep">//</span>
+      <span class="marquee__item">ZERO TRUST</span><span class="marquee__sep">//</span>
+    </div>
+  </div>
+
+  <!-- ======== SERVICES ======== -->
+  <section class="section" id="services">
+    <div class="container">
+      <div class="section__head reveal">
+        <span class="section__tag" data-en="02 // SERVICES" data-ar="02 // الخدمات">02 // SERVICES</span>
+        <h2 class="section__title" data-en="TACTICAL SERVICES" data-ar="خدمات تكتيكية">TACTICAL SERVICES</h2>
+        <p class="section__sub" data-en="Comprehensive security operations built for modern enterprise environments." data-ar="عمليات أمنية شاملة مصممة للبيئات المؤسسية الحديثة.">Comprehensive security operations built for modern enterprise environments.</p>
+      </div>
+
+      <div class="services__grid">
+        <!-- Card 1 -->
+        <article class="svc reveal">
+          <div class="svc__glow"></div>
+          <div class="svc__top">
+            <div class="svc__icon"><i class="bi bi-bullseye"></i></div>
+            <span class="svc__code">RED-01</span>
+          </div>
+          <h3 class="svc__title" data-en="Penetration Testing" data-ar="اختبار الاختراق">Penetration Testing</h3>
+          <p class="svc__desc" data-en="Full-scope adversarial simulation against web, mobile, network, and API targets." data-ar="محاكاة هجوم شاملة ضد تطبيقات الويب والجوال والشبكات وواجهات API.">Full-scope adversarial simulation against web, mobile, network, and API targets.</p>
+          <ul class="svc__list">
+            <li data-en="External & Internal PT" data-ar="اختبار خارجي وداخلي">External & Internal PT</li>
+            <li data-en="Web App & API Testing" data-ar="اختبار تطبيقات واجهات API">Web App & API Testing</li>
+            <li data-en="Wireless & IoT Testing" data-ar="اختبار لاسلكي وإنترنت الأشياء">Wireless & IoT Testing</li>
+          </ul>
+        </article>
+
+        <!-- Card 2 -->
+        <article class="svc reveal">
+          <div class="svc__glow"></div>
+          <div class="svc__top">
+            <div class="svc__icon"><i class="bi bi-shield-exclamation"></i></div>
+            <span class="svc__code">BLU-02</span>
+          </div>
+          <h3 class="svc__title" data-en="Threat Detection & Response" data-ar="كشف التهديدات والاستجابة">Threat Detection & Response</h3>
+          <p class="svc__desc" data-en="24/7 SOC, advanced threat hunting, EDR/XDR deployment, and rapid incident containment." data-ar="مركز عمليات أمنية 24/7، صيد التهديدات المتقدم، نشر EDR/XDR، واحتواء سريع للحوادث.">24/7 SOC, advanced threat hunting, EDR/XDR deployment, and rapid incident containment.</p>
+          <ul class="svc__list">
+            <li data-en="24/7 SOC Monitoring" data-ar="مراقبة مركز العمليات 24/7">24/7 SOC Monitoring</li>
+            <li data-en="EDR / XDR Integration" data-ar="تكامل EDR / XDR">EDR / XDR Integration</li>
+            <li data-en="Incident Playbooks" data-ar="أدلة الاستجابة للحوادث">Incident Playbooks</li>
+          </ul>
+        </article>
+
+        <!-- Card 3 -->
+        <article class="svc reveal">
+          <div class="svc__glow"></div>
+          <div class="svc__top">
+            <div class="svc__icon"><i class="bi bi-cloud-check"></i></div>
+            <span class="svc__code">CLD-03</span>
+          </div>
+          <h3 class="svc__title" data-en="Cloud Security" data-ar="أمن السحابة">Cloud Security</h3>
+          <p class="svc__desc" data-en="AWS, Azure, and GCP hardening with CSPM, identity-first controls, and IaC scanning." data-ar="تأمين AWS و Azure و GCP مع CSPM وضوابط الهوية وفحص البنية التحتية كشيفرة.">AWS, Azure, and GCP hardening with CSPM, identity-first controls, and IaC scanning.</p>
+          <ul class="svc__list">
+            <li data-en="AWS / Azure / GCP" data-ar="AWS / Azure / GCP">AWS / Azure / GCP</li>
+            <li data-en="Kubernetes Security" data-ar="أمن Kubernetes">Kubernetes Security</li>
+            <li data-en="CSPM & CWPP" data-ar="CSPM و CWPP">CSPM & CWPP</li>
+          </ul>
+        </article>
+
+        <!-- Card 4 -->
+        <article class="svc reveal">
+          <div class="svc__glow"></div>
+          <div class="svc__top">
+            <div class="svc__icon"><i class="bi bi-fingerprint"></i></div>
+            <span class="svc__code">FOR-04</span>
+          </div>
+          <h3 class="svc__title" data-en="Digital Forensics" data-ar="التحليل الجنائي الرقمي">Digital Forensics</h3>
+          <p class="svc__desc" data-en="Evidence acquisition, timeline reconstruction, and legal-grade reporting." data-ar="جمع الأدلة، إعادة بناء الخط الزمني، وتقارير بمستوى قانوني.">Evidence acquisition, timeline reconstruction, and legal-grade reporting.</p>
+          <ul class="svc__list">
+            <li data-en="Disk & Memory Forensics" data-ar="تحليل الأقراص والذاكرة">Disk & Memory Forensics</li>
+            <li data-en="Log Analysis" data-ar="تحليل السجلات">Log Analysis</li>
+            <li data-en="Malware Reverse Engineering" data-ar="هندسة البرمجيات الخبيثة عكسياً">Malware Reverse Engineering</li>
+          </ul>
+        </article>
+
+        <!-- Card 5 -->
+        <article class="svc reveal">
+          <div class="svc__glow"></div>
+          <div class="svc__top">
+            <div class="svc__icon"><i class="bi bi-clipboard2-pulse"></i></div>
+            <span class="svc__code">GRC-05</span>
+          </div>
+          <h3 class="svc__title" data-en="GRC & Compliance" data-ar="الحوكمة والامتثال">GRC & Compliance</h3>
+          <p class="svc__desc" data-en="Align security operations with ISO 27001, NIST CSF, SOC 2, and PCI-DSS frameworks." data-ar="مواءمة العمليات الأمنية مع أطر ISO 27001 و NIST CSF و SOC 2 و PCI-DSS.">Align security operations with ISO 27001, NIST CSF, SOC 2, and PCI-DSS frameworks.</p>
+          <ul class="svc__list">
+            <li data-en="ISO 27001 / 27002" data-ar="ISO 27001 / 27002">ISO 27001 / 27002</li>
+            <li data-en="NIST CSF / SOC 2" data-ar="NIST CSF / SOC 2">NIST CSF / SOC 2</li>
+            <li data-en="PCI-DSS Readiness" data-ar="جاهزية PCI-DSS">PCI-DSS Readiness</li>
+          </ul>
+        </article>
+
+        <!-- Card 6 -->
+        <article class="svc reveal">
+          <div class="svc__glow"></div>
+          <div class="svc__top">
+            <div class="svc__icon"><i class="bi bi-people-fill"></i></div>
+            <span class="svc__code">TRN-06</span>
+          </div>
+          <h3 class="svc__title" data-en="Security Awareness" data-ar="التوعية الأمنية">Security Awareness</h3>
+          <p class="svc__desc" data-en="Phishing simulations, role-based training, and red-team tabletop exercises." data-ar="محاكاة التصيّد، تدريب حسب الدور، وتمارين الطاولة مع الفريق الأحمر.">Phishing simulations, role-based training, and red-team tabletop exercises.</p>
+          <ul class="svc__list">
+            <li data-en="Phishing Simulations" data-ar="محاكاة التصيّد">Phishing Simulations</li>
+            <li data-en="Tabletop Exercises" data-ar="تمارين الطاولة">Tabletop Exercises</li>
+            <li data-en="Role-Based Modules" data-ar="وحدات حسب الدور">Role-Based Modules</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======== ABOUT ======== -->
+  <section class="section section--alt" id="about">
+    <div class="container about__grid">
+      <div class="about__left reveal">
+        <span class="section__tag" data-en="03 // ABOUT" data-ar="03 // من نحن">03 // ABOUT</span>
+        <h2 class="section__title" data-en="BUILT BY HACKERS, TRUSTED BY ENTERPRISES" data-ar="بُني بواسطة المخترقين، وموثوق من المؤسسات">BUILT BY HACKERS, TRUSTED BY ENTERPRISES</h2>
+        <p class="about__text" data-en="HACKSTROM is a next-generation cybersecurity firm founded by former intelligence operatives, CTF champions, and certified penetration testers. We combine offensive expertise with defensive precision." data-ar="هاكستروم شركة أمن سيبراني من الجيل التالي تأسست من قبل سابقين في جهاز الاستخبارات وبطلين في مسابقات CTA واختباري اختراق معتمدين. نجمع بين الخبرة الهجومية والدقة الدفاعية.">HACKSTROM is a next-generation cybersecurity firm founded by former intelligence operatives, CTF champions, and certified penetration testers. We combine offensive expertise with defensive precision.</p>
+
+        <div class="about__features">
+          <div class="about__feat">
+            <div class="about__feat-icon"><i class="bi bi-cpu"></i></div>
+            <div>
+              <h4 data-en="AI-Powered Detection" data-ar="كشف مدعوم بالذكاء الاصطناعي">AI-Powered Detection</h4>
+              <p data-en="ML models trained on 10B+ threat indicators" data-ar="نماذج تعلم آلي مدرّبة على أكثر من 10 مليار مؤشر تهديد">ML models trained on 10B+ threat indicators</p>
+            </div>
+          </div>
+          <div class="about__feat">
+            <div class="about__feat-icon"><i class="bi bi-lightning-charge"></i></div>
+            <div>
+              <h4 data-en="15-Minute Response SLA" data-ar="استجابة خلال 15 دقيقة">15-Minute Response SLA</h4>
+              <p data-en="Guaranteed incident response time for critical alerts" data-ar="زمن استجابة مضمون للتنبيهات الحرجة">Guaranteed incident response time for critical alerts</p>
+            </div>
+          </div>
+          <div class="about__feat">
+            <div class="about__feat-icon"><i class="bi bi-diagram-3-fill"></i></div>
+            <div>
+              <h4 data-en="Zero Trust Architecture" data-ar="معمارية الثقة الصفرية">Zero Trust Architecture</h4>
+              <p data-en="Identity-first security model for modern workforces" data-ar="نموذج أمني قائم على الهوية للقوى العاملة الحديثة">Identity-first security model for modern workforces</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="about__right reveal">
+        <div class="about__visual">
+          <div class="shield-pulse">
+            <i class="bi bi-shield-lock-fill"></i>
+          </div>
+          <div class="about__ring about__ring--1"></div>
+          <div class="about__ring about__ring--2"></div>
+          <div class="about__ring about__ring--3"></div>
+        </div>
+        <div class="about__badges">
+          <div class="about__badge"><i class="bi bi-award-fill"></i><span data-en="OSCP" data-ar="OSCP">OSCP</span></div>
+          <div class="about__badge"><i class="bi bi-award-fill"></i><span data-en="CEH" data-ar="CEH">CEH</span></div>
+          <div class="about__badge"><i class="bi bi-award-fill"></i><span data-en="CISSP" data-ar="CISSP">CISSP</span></div>
+          <div class="about__badge"><i class="bi bi-award-fill"></i><span data-en="GXPN" data-ar="GXPN">GXPN</span></div>
+          <div class="about__badge"><i class="bi bi-award-fill"></i><span data-en="CRTO" data-ar="CRTO">CRTO</span></div>
+          <div class="about__badge"><i class="bi bi-award-fill"></i><span data-en="GCIH" data-ar="GCIH">GCIH</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======== PROCESS ======== -->
+  <section class="section" id="process">
+    <div class="container">
+      <div class="section__head reveal">
+        <span class="section__tag" data-en="04 // METHODOLOGY" data-ar="04 // المنهجية">04 // METHODOLOGY</span>
+        <h2 class="section__title" data-en="OUR ATTACK LIFECYCLE" data-ar="دورة حياتنا الهجومية">OUR ATTACK LIFECYCLE</h2>
+        <p class="section__sub" data-en="A structured, repeatable methodology refined across 500+ engagements." data-ar="منهجية منظمة وقابلة للتكرار مُحسّنة عبر أكثر من 500 عملية.">A structured, repeatable methodology refined across 500+ engagements.</p>
+      </div>
+
+      <div class="process__track reveal">
+        <div class="process__line"></div>
+
+        <div class="process__step">
+          <div class="process__num">01</div>
+          <div class="process__card">
+            <h3 data-en="Reconnaissance" data-ar="الاستطلاع">Reconnaissance</h3>
+            <p data-en="OSINT gathering, attack surface mapping, DNS enumeration, and target profiling." data-ar="جمع المعلومات المفتوحة، رسم سطح الهجمات، تعداد DNS، وتحديد الملف التعريفي للأهداف.">OSINT gathering, attack surface mapping, DNS enumeration, and target profiling.</p>
+          </div>
+        </div>
+
+        <div class="process__step">
+          <div class="process__num">02</div>
+          <div class="process__card">
+            <h3 data-en="Scanning & Enumeration" data-ar="الفحص والتعداد">Scanning & Enumeration</h3>
+            <p data-en="Automated + manual vulnerability scanning, service fingerprinting, and CMS detection." data-ar="فحص ثغرات آلي ويدوي، بصمة الخدمات، واكتشاف أنظمة إدارة المحتوى.">Automated + manual vulnerability scanning, service fingerprinting, and CMS detection.</p>
+          </div>
+        </div>
+
+        <div class="process__step">
+          <div class="process__num">03</div>
+          <div class="process__card">
+            <h3 data-en="Exploitation" data-ar="الاستغلال">Exploitation</h3>
+            <p data-en="Validated exploitation with business logic testing, chained attacks, and privilege escalation." data-ar="استغلال مُتحقق منه مع اختبار المنطق التجاري والهجمات المتسلسلة وتصعيد الصلاحيات.">Validated exploitation with business logic testing, chained attacks, and privilege escalation.</p>
+          </div>
+        </div>
+
+        <div class="process__step">
+          <div class="process__num">04</div>
+          <div class="process__card">
+            <h3 data-en="Post-Exploitation" data-ar="ما بعد الاستغلال">Post-Exploitation</h3>
+            <p data-en="Lateral movement, persistence mechanisms, data exfiltration simulation, and impact assessment." data-ar="الحركة الجانبية، آليات الاستمرارية، محاكاة تسريب البيانات، وتقييم الأثر.">Lateral movement, persistence mechanisms, data exfiltration simulation, and impact assessment.</p>
+          </div>
+        </div>
+
+        <div class="process__step">
+          <div class="process__num">05</div>
+          <div class="process__card">
+            <h3 data-en="Reporting & Remediation" data-ar="التقارير والإصلاح">Reporting & Remediation</h3>
+            <p data-en="Executive summary, technical findings, CVSS scoring, remediation guide, and free retest." data-ar="ملخص تنفيذي، نتائج تقنية، تقييم CVSS، دليل الإصلاح، وإعادة اختبار مجانية.">Executive summary, technical findings, CVSS scoring, remediation guide, and free retest.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======== STATS ======== -->
+  <section class="section section--stats" id="stats">
+    <div class="container">
+      <div class="section__head reveal">
+        <span class="section__tag" data-en="05 // BY THE NUMBERS" data-ar="05 // بالأرقام">05 // BY THE NUMBERS</span>
+        <h2 class="section__title" data-en="PROVEN RESULTS" data-ar="نتائج مثبتة">PROVEN RESULTS</h2>
+      </div>
+      <div class="stats__grid reveal">
+        <div class="stat">
+          <span class="stat__num" data-count="500">0</span><span class="stat__suffix">+</span>
+          <span class="stat__label" data-en="Engagements Completed" data-ar="عمليات منجزة">Engagements Completed</span>
+        </div>
+        <div class="stat">
+          <span class="stat__num" data-count="12000">0</span><span class="stat__suffix">+</span>
+          <span class="stat__label" data-en="Vulnerabilities Found" data-ar="ثغرة مكتشفة">Vulnerabilities Found</span>
+        </div>
+        <div class="stat">
+          <span class="stat__num" data-count="99">0</span><span class="stat__suffix">.9%</span>
+          <span class="stat__label" data-en="Uptime SLA" data-ar="جاهزية التشغيل">Uptime SLA</span>
+        </div>
+        <div class="stat">
+          <span class="stat__num" data-count="15">0</span><span class="stat__suffix"> min</span>
+          <span class="stat__label" data-en="Average Response Time" data-ar="متوسط زمن الاستجابة">Average Response Time</span>
+        </div>
+        <div class="stat">
+          <span class="stat__num" data-count="24">0</span><span class="stat__suffix">/7</span>
+          <span class="stat__label" data-en="Security Monitoring" data-ar="مراقبة أمنية">Security Monitoring</span>
+        </div>
+        <div class="stat">
+          <span class="stat__num" data-count="40">0</span><span class="stat__suffix">+</span>
+          <span class="stat__label" data-en="Certified Experts" data-ar="خبير معتمد">Certified Experts</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======== LEADERBOARD ======== -->
+  <section class="section" id="leaderboard">
+    <div class="container">
+      <div class="section__head reveal">
+        <span class="section__tag" data-en="06 // LEADERBOARD" data-ar="06 // لوحة الترتيب">06 // LEADERBOARD</span>
+        <h2 class="section__title" data-en="DISCORD CHAMPIONS" data-ar="أبطال الديسكورد">DISCORD CHAMPIONS</h2>
+        <p class="section__sub" data-en="Top performers from our Discord point collection events. Updated regularly." data-ar="أفضل المشاركين من فعاليات جمع النقاط في الديسكورد. يُحدَّث بشكل دوري.">Top performers from our Discord point collection events. Updated regularly.</p>
+      </div>
+
+      <!-- Top 3 podium -->
+      <div class="lb__podium reveal" id="lbPodium">
+        <div class="lb__podium-card lb__podium-card--2" data-rank="2">
+          <div class="lb__podium-avatar"><i class="bi bi-person-fill"></i></div>
+          <span class="lb__podium-badge">🥈</span>
+          <span class="lb__podium-name">—</span>
+          <span class="lb__podium-points">—</span>
+          <div class="lb__podium-bar lb__podium-bar--2"></div>
+        </div>
+        <div class="lb__podium-card lb__podium-card--1" data-rank="1">
+          <div class="lb__podium-avatar lb__podium-avatar--gold"><i class="bi bi-person-fill"></i></div>
+          <span class="lb__podium-badge">👑</span>
+          <span class="lb__podium-name">—</span>
+          <span class="lb__podium-points">—</span>
+          <div class="lb__podium-bar lb__podium-bar--1"></div>
+        </div>
+        <div class="lb__podium-card lb__podium-card--3" data-rank="3">
+          <div class="lb__podium-avatar"><i class="bi bi-person-fill"></i></div>
+          <span class="lb__podium-badge">🥉</span>
+          <span class="lb__podium-name">—</span>
+          <span class="lb__podium-points">—</span>
+          <div class="lb__podium-bar lb__podium-bar--3"></div>
+        </div>
+      </div>
+
+      <!-- Full ranking table -->
+      <div class="lb__table-wrap reveal">
+        <table class="lb__table" id="lbTable">
+          <thead>
+            <tr>
+              <th data-en="Rank" data-ar="الترتيب">Rank</th>
+              <th data-en="Player" data-ar="اللاعب">Player</th>
+              <th data-en="Points" data-ar="النقاط">Points</th>
+              <th data-en="Badge" data-ar="الشارة">Badge</th>
+            </tr>
+          </thead>
+          <tbody id="lbBody">
+            <tr><td colspan="4" class="lb__loading" data-en="Loading..." data-ar="جاري التحميل...">Loading...</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p class="lb__note reveal" data-en="Scores are collected during Discord events. Join our server to participate!" data-ar="تُجمع النقاط أثناء فعاليات الديسكورد. انضم لسيرفرنا للمشاركة!">Scores are collected during Discord events. Join our server to participate!</p>
+    </div>
+  </section>
+
+  <!-- ======== FAQ ======== -->
+  <section class="section section--alt" id="faq">
+    <div class="container">
+      <div class="section__head reveal">
+        <span class="section__tag" data-en="07 // FAQ" data-ar="07 // الأسئلة">07 // FAQ</span>
+        <h2 class="section__title" data-en="FREQUENTLY ASKED" data-ar="الأسئلة الشائعة">FREQUENTLY ASKED</h2>
+      </div>
+
+      <div class="faq__list reveal">
+        <div class="faq__item">
+          <button class="faq__q">
+            <span data-en="What is penetration testing?" data-ar="ما هو اختبار الاختراق؟">What is penetration testing?</span>
+            <i class="bi bi-plus-lg"></i>
+          </button>
+          <div class="faq__a">
+            <p data-en="Penetration testing is a simulated cyberattack against your systems to identify vulnerabilities before real attackers do. Our certified testers mimic real-world threat actors using the same tools and techniques." data-ar="اختبار الاختراق هو محاكاة هجوم سيبراني على أنظمتك لاكتشاف الثغرات قبل أن يفعلها المهاجمون الحقيقيون. اختبارونا المعتمدون يحاكون المهاجمين الحقيقيين باستخدام نفس الأدوات والتقنيات.">Penetration testing is a simulated cyberattack against your systems to identify vulnerabilities before real attackers do.</p>
+          </div>
+        </div>
+
+        <div class="faq__item">
+          <button class="faq__q">
+            <span data-en="How long does an engagement take?" data-ar="كم تستغرق العملية؟">How long does an engagement take?</span>
+            <i class="bi bi-plus-lg"></i>
+          </button>
+          <div class="faq__a">
+            <p data-en="A typical web application pentest takes 7–14 days. Full network assessments and red team operations can take 3–6 weeks depending on scope." data-ar="اختبار تطبيقات الويب يستغرق عادة 7-14 يوماً. تقييمات الشبكة الكاملة وعمليات الفريق الأحمر قد تستغرق 3-6 أسابيع حسب النطاق.">A typical web application pentest takes 7–14 days.</p>
+          </div>
+        </div>
+
+        <div class="faq__item">
+          <button class="faq__q">
+            <span data-en="Do you provide ongoing monitoring?" data-ar="هل تقدمون مراقبة مستمرة؟">Do you provide ongoing monitoring?</span>
+            <i class="bi bi-plus-lg"></i>
+          </button>
+          <div class="faq__a">
+            <p data-en="Yes. Our Enterprise plan includes 24/7 SOC monitoring with real-time threat detection, automated playbooks, and a guaranteed 15-minute response SLA for critical incidents." data-ar="نعم. خطة المؤسسات تشمل مراقبة مركز العمليات الأمنية 24/7 مع كشف فوري للتهديدات وأدلة آلية وزمن استجابة مضمون 15 دقيقة للحوادث الحرجة.">Yes. Our Enterprise plan includes 24/7 SOC monitoring.</p>
+          </div>
+        </div>
+
+        <div class="faq__item">
+          <button class="faq__q">
+            <span data-en="What certifications does your team hold?" data-ar="ما هي شهادات فريقكم؟">What certifications does your team hold?</span>
+            <i class="bi bi-plus-lg"></i>
+          </button>
+          <div class="faq__a">
+            <p data-en="Our team holds OSCP, OSEP, OSWE, CISSP, CISA, CRTO, GXPN, GCIH, CEH, and dozens more. We require continuous education and annual recertification." data-ar="فريقنا يحمل شهادات OSCP و OSEP و OSWE و CISSP و CISA و CRTO و GXPN و GCIH و CEH والعديد غيرها. نشترط التعليم المستمر والتجديد السنوي للشهادات.">Our team holds OSCP, OSEP, OSWE, CISSP, CISA, CRTO, GXPN, GCIH, CEH, and dozens more.</p>
+          </div>
+        </div>
+
+        <div class="faq__item">
+          <button class="faq__q">
+            <span data-en="Can you sign NDAs and work with classified data?" data-ar="هل يمكنكم توقيع اتفاقيات عدم الإفصاح والتعامل مع بيانات سرية؟">Can you sign NDAs and work with classified data?</span>
+            <i class="bi bi-plus-lg"></i>
+          </button>
+          <div class="faq__a">
+            <p data-en="Absolutely. We routinely work with defense, finance, and healthcare clients under strict NDAs. All team members hold security clearances and undergo annual background checks." data-ar="بالتأكيد. نعمل rutinely مع عملاء في الدفاع والصحة والقطاع المالي تحت اتفاقيات عدم إفصار صارمة. جميع أعضاء الفريق يحملون تراخيص أمنية ويخضعون لفحص خلفية سنوي.">Absolutely. We routinely work with defense, finance, and healthcare clients under strict NDAs.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======== CONTACT / CTA ======== -->
+  <section class="section" id="contact">
+    <div class="container">
+      <div class="cta reveal">
+        <div class="cta__glow"></div>
+        <span class="section__tag" data-en="08 // CONTACT" data-ar="08 // تواصل">08 // CONTACT</span>
+        <h2 class="cta__title" data-en="READY TO SECURE YOUR INFRASTRUCTURE?" data-ar="مستعد لتأمين بنتك التحتية؟">READY TO SECURE YOUR INFRASTRUCTURE?</h2>
+        <p class="cta__desc" data-en="Get a free security assessment. No commitment required. All communications are encrypted end-to-end." data-ar="احصل على تقييم أمني مجاني. بدون أي التزام. جميع الاتصالات مشفرة من طرف إلى طرف.">Get a free security assessment. No commitment required.</p>
+        <div class="cta__actions">
+          <a href="https://discord.gg/uVeYXjmgFm" target="_blank" rel="noopener" class="btn btn--primary btn--lg">
+            <i class="bi bi-discord"></i>
+            <span data-en="JOIN DISCORD" data-ar="انضم لديسكورد">JOIN DISCORD</span>
+          </a>
+          <button class="btn btn--outline btn--lg" id="copyDiscord">
+            <i class="bi bi-link-45deg"></i>
+            <span data-en="COPY INVITE" data-ar="نسخ الرابط">COPY INVITE</span>
+            <span class="copy-toast" id="copyToast" data-en="Copied!" data-ar="تم النسخ!">Copied!</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======== FOOTER ======== -->
+  <footer class="footer">
+    <div class="container footer__inner">
+      <div class="footer__brand">
+        <div class="logo">
+          <div class="logo__icon"><i class="bi bi-shield-lock-fill"></i></div>
+          <div class="logo__text">
+            <span class="logo__name">HACKSTROM</span>
+            <span class="logo__tag" data-en="CYBERSECURITY" data-ar="الأمن السيبراني">CYBERSECURITY</span>
+          </div>
+        </div>
+        <p class="footer__desc" data-en="Elite cybersecurity operations for organizations that refuse to be breached." data-ar="عمليات أمن سيبراني نخبة للمؤسسات التي ترفض أن تُخترق.">Elite cybersecurity operations for organizations that refuse to be breached.</p>
+      </div>
+
+      <div class="footer__links">
+        <div class="footer__col">
+          <h4 data-en="Services" data-ar="الخدمات">Services</h4>
+          <a href="#services" data-en="Penetration Testing" data-ar="اختبار الاختراق">Penetration Testing</a>
+          <a href="#services" data-en="Threat Detection" data-ar="كشف التهديدات">Threat Detection</a>
+          <a href="#services" data-en="Cloud Security" data-ar="أمن السحابة">Cloud Security</a>
+          <a href="#services" data-en="Digital Forensics" data-ar="التحليل الجنائي">Digital Forensics</a>
+        </div>
+        <div class="footer__col">
+          <h4 data-en="Company" data-ar="الشركة">Company</h4>
+          <a href="#about" data-en="About Us" data-ar="من نحن">About Us</a>
+          <a href="#process" data-en="Methodology" data-ar="المنهجية">Methodology</a>
+          <a href="#faq" data-en="FAQ" data-ar="الأسئلة">FAQ</a>
+        </div>
+        <div class="footer__col">
+          <h4 data-en="Connect" data-ar="تواصل">Connect</h4>
+          <a href="https://discord.gg/uVeYXjmgFm" target="_blank" rel="noopener">Discord</a>
+          <a href="#" data-en="Twitter / X" data-ar="تويتر / X">Twitter / X</a>
+          <a href="#" data-en="GitHub" data-ar="GitHub">GitHub</a>
+          <a href="#" data-en="LinkedIn" data-ar="LinkedIn">LinkedIn</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer__bar">
+      <div class="container footer__bar-inner">
+        <span>© <span id="year">2026</span> HACKSTROM. <span data-en="All rights reserved." data-ar="جميع الحقوق محفوظة.">All rights reserved.</span></span>
+        <span data-en="Designed for secure engagements." data-ar="مصمم لعمليات آمنة.">Designed for secure engagements.</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Back to top -->
+  <button class="btt" id="backToTop" aria-label="Back to top">
+    <i class="bi bi-arrow-up"></i>
+  </button>
+
+  <!-- Scripts -->
+  <script src="./src/js/main.js"></script>
+</body>
+</html>

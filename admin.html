@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HACKSTROM — Admin Dashboard</title>
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta http-equiv="X-Frame-Options" content="DENY">
+  <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=(), payment=()">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; font-src https://fonts.gstatic.com https://cdn.jsdelivr.net; img-src 'self' data: https:; connect-src 'self' https://api.github.com https://raw.githubusercontent.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'">
+  <meta http-equiv="Strict-Transport-Security" content="max-age=31536000; includeSubDomains">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=JetBrains+Mono:wght@400;600;700&family=Orbitron:wght@600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#07070f;--surface:rgba(14,14,32,.92);
+      --purple:#8b3dff;--cyan:#00d4ff;--purple2:#b47aff;
+      --red:#ff3d6e;
+      --text:#f0f0ff;--text2:rgba(220,222,255,.7);--text3:rgba(160,164,220,.5);
+      --border:rgba(139,61,255,.28);--border2:rgba(139,61,255,.55);
+      --r1:12px;--r2:20px;
+      --ff-head:'Orbitron',sans-serif;--ff-body:'Cairo',sans-serif;--ff-mono:'JetBrains Mono',monospace;
+      --ease:cubic-bezier(.25,1,.5,1);
+    }
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:var(--ff-body);background:var(--bg);color:var(--text);line-height:1.8;min-height:100vh}
+    a{color:inherit;text-decoration:none}
+    button{border:none;background:none;color:inherit;font:inherit;cursor:pointer}
+    ::selection{background:var(--purple);color:#fff}
+    body::before{content:'';position:fixed;inset:0;z-index:-1;
+      background:radial-gradient(ellipse 60% 50% at 20% 0%,rgba(139,61,255,.15),transparent),
+        radial-gradient(ellipse 50% 60% at 80% 100%,rgba(0,212,255,.1),transparent)}
+
+    .wrap{max-width:960px;margin:0 auto;padding:2rem 1.2rem 4rem}
+
+    .hdr{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;
+      padding:1.2rem 1.6rem;border-radius:var(--r2);border:1px solid var(--border);
+      background:var(--surface);backdrop-filter:blur(16px);margin-bottom:2rem}
+    .hdr__brand{display:flex;align-items:center;gap:.8rem}
+    .hdr__icon{display:grid;place-items:center;width:2.6rem;height:2.6rem;border-radius:10px;
+      background:linear-gradient(135deg,var(--purple),var(--cyan));color:#fff;font-size:1.2rem;
+      box-shadow:0 0 30px rgba(139,61,255,.5)}
+    .hdr__title{font-family:var(--ff-head);font-weight:800;font-size:1.1rem;letter-spacing:.1em}
+    .hdr__sub{font-family:var(--ff-mono);font-size:.65rem;letter-spacing:.4em;color:var(--text3);text-transform:uppercase}
+    .hdr__actions{display:flex;gap:.6rem;flex-wrap:wrap}
+
+    .btn{display:inline-flex;align-items:center;gap:.5rem;padding:.65rem 1.4rem;border-radius:999px;
+      font-weight:700;font-size:.85rem;transition:all .3s var(--ease);white-space:nowrap}
+    .btn--pri{background:linear-gradient(135deg,var(--purple),var(--cyan));color:#fff;
+      box-shadow:0 12px 40px -15px rgba(139,61,255,.8)}
+    .btn--pri:hover{transform:translateY(-2px);box-shadow:0 18px 50px -15px rgba(139,61,255,.9)}
+    .btn--out{border:1.5px solid var(--border2);color:var(--text);background:rgba(14,14,32,.7)}
+    .btn--out:hover{border-color:var(--purple);background:rgba(139,61,255,.15);transform:translateY(-2px)}
+    .btn--danger{border:1.5px solid rgba(255,61,110,.4);color:var(--red);background:rgba(255,61,110,.08)}
+    .btn--danger:hover{border-color:var(--red);background:rgba(255,61,110,.2)}
+
+    .mini-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:.8rem;margin-bottom:1.5rem}
+    .mini{padding:1rem 1.2rem;border-radius:var(--r1);border:1px solid var(--border);background:var(--surface);text-align:center}
+    .mini__num{font-family:var(--ff-head);font-weight:800;font-size:1.6rem;
+      background:linear-gradient(135deg,var(--cyan),var(--purple));
+      -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .mini__lbl{font-size:.78rem;color:var(--text3)}
+
+    .card{border-radius:var(--r2);border:1px solid var(--border);background:var(--surface);
+      backdrop-filter:blur(16px);padding:clamp(1.4rem,3vw,2rem);margin-bottom:1.5rem}
+    .card__title{font-family:var(--ff-head);font-weight:700;font-size:1rem;margin-bottom:1.2rem;
+      display:flex;align-items:center;gap:.6rem}
+    .card__title i{color:var(--cyan)}
+
+    .form-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(200px,100%),1fr));gap:1rem}
+    .field{display:flex;flex-direction:column;gap:.4rem}
+    .field label{font-family:var(--ff-mono);font-size:.72rem;letter-spacing:.15em;text-transform:uppercase;color:var(--text3)}
+    .field input,.field select{padding:.75rem 1rem;border-radius:var(--r1);border:1px solid var(--border);
+      background:rgba(7,7,15,.8);color:var(--text);font-family:var(--ff-body);font-size:.95rem;
+      outline:none;transition:.25s}
+    .field input:focus,.field select:focus{border-color:var(--purple);box-shadow:0 0 20px rgba(139,61,255,.25)}
+    .field input::placeholder{color:var(--text3)}
+    .form-actions{display:flex;gap:.7rem;margin-top:1rem;flex-wrap:wrap;align-items:center}
+
+    .hint{font-family:var(--ff-mono);font-size:.75rem;color:var(--text3);margin-top:.4rem}
+    .hint b{color:var(--cyan2)}
+
+    .tbl-wrap{overflow-x:auto;border-radius:var(--r2);border:1px solid var(--border);background:var(--surface);backdrop-filter:blur(16px)}
+    table{width:100%;border-collapse:collapse}
+    thead{background:rgba(139,61,255,.12)}
+    th{padding:.85rem 1rem;font-family:var(--ff-mono);font-size:.7rem;letter-spacing:.18em;
+      text-transform:uppercase;color:var(--purple2);text-align:start;border-bottom:1px solid var(--border)}
+    td{padding:.75rem 1rem;font-size:.92rem;color:var(--text2);border-bottom:1px solid rgba(139,61,255,.07);vertical-align:middle}
+    tbody tr{transition:background .2s}
+    tbody tr:hover{background:rgba(139,61,255,.06)}
+    tbody tr:last-child td{border-bottom:none}
+    .t-rank{font-family:var(--ff-head);font-weight:800;font-size:1rem;min-width:2.2rem}
+    .t-rank--1{color:#ffd700}.t-rank--2{color:#c0c0c0}.t-rank--3{color:#cd7f32}
+    .t-pts{font-family:var(--ff-mono);font-weight:700;color:#6ae8ff}
+    .t-actions{display:flex;gap:.4rem}
+    .icon-btn{display:grid;place-items:center;width:2rem;height:2rem;border-radius:8px;
+      border:1px solid var(--border);background:rgba(14,14,32,.7);color:var(--text3);font-size:.85rem;
+      transition:.2s}
+    .icon-btn:hover{border-color:var(--purple);color:var(--text);transform:translateY(-2px)}
+    .icon-btn--del:hover{border-color:var(--red);color:var(--red);background:rgba(255,61,110,.1)}
+    .icon-btn--up:hover{border-color:var(--cyan);color:var(--cyan)}
+    .empty{text-align:center;padding:2.5rem 1rem;color:var(--text3)}
+    .empty i{font-size:2.5rem;display:block;margin-bottom:.6rem;opacity:.4}
+    tr.editing{background:rgba(139,61,255,.1)!important;outline:1px solid var(--purple)}
+
+    .toast{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%) translateY(1rem);
+      padding:.8rem 1.6rem;border-radius:999px;background:#111;border:1px solid var(--cyan);
+      color:#6ae8ff;font-family:var(--ff-mono);font-size:.85rem;opacity:0;visibility:hidden;
+      transition:.35s var(--ease);z-index:999;white-space:nowrap}
+    .toast.show{opacity:1;visibility:visible;transform:translateX(-50%) translateY(0)}
+
+    @media(max-width:600px){
+      .hdr{flex-direction:column;align-items:stretch}
+      .hdr__actions{justify-content:center}
+      .form-actions{justify-content:center}
+    }
+
+    /* ============ LOGIN GATE ============ */
+    .login-overlay{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;
+      background:var(--bg);transition:opacity .5s ease,visibility .5s ease}
+    .login-overlay.hide{opacity:0;visibility:hidden;pointer-events:none}
+    .login-box{width:min(400px,90vw);padding:2.5rem 2rem;border-radius:var(--r2);
+      border:1px solid var(--border);background:var(--surface);backdrop-filter:blur(20px);
+      text-align:center;box-shadow:0 40px 120px -60px rgba(139,61,255,.7)}
+    .login-icon{display:grid;place-items:center;width:64px;height:64px;margin:0 auto 1.2rem;
+      border-radius:50%;background:linear-gradient(135deg,var(--purple),var(--cyan));
+      font-size:1.8rem;color:#fff;box-shadow:0 0 50px rgba(139,61,255,.5)}
+    .login-title{font-family:var(--ff-head);font-weight:800;font-size:1.1rem;margin-bottom:.3rem}
+    .login-sub{font-family:var(--ff-mono);font-size:.65rem;letter-spacing:.4em;color:var(--text3);
+      text-transform:uppercase;margin-bottom:1.5rem}
+    .login-field{display:flex;flex-direction:column;gap:.5rem;margin-bottom:1rem;text-align:start}
+    .login-field label{font-family:var(--ff-mono);font-size:.7rem;letter-spacing:.15em;
+      text-transform:uppercase;color:var(--text3)}
+    .login-field input{padding:.85rem 1.1rem;border-radius:var(--r1);border:1px solid var(--border);
+      background:rgba(7,7,15,.8);color:var(--text);font-family:var(--ff-mono);font-size:1rem;
+      letter-spacing:.15em;outline:none;transition:.25s;text-align:center}
+    .login-field input:focus{border-color:var(--purple);box-shadow:0 0 25px rgba(139,61,255,.3)}
+    .login-btn{width:100%;padding:.9rem;border-radius:999px;font-weight:800;font-size:.95rem;
+      background:linear-gradient(135deg,var(--purple),var(--cyan));color:#fff;cursor:pointer;
+      border:none;transition:.3s var(--ease);box-shadow:0 12px 40px -15px rgba(139,61,255,.8)}
+    .login-btn:hover{transform:translateY(-2px);box-shadow:0 18px 50px -15px rgba(139,61,255,.9)}
+    .login-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+    .login-error{margin-top:.8rem;font-family:var(--ff-mono);font-size:.8rem;color:var(--red);
+      min-height:1.3rem;letter-spacing:.05em}
+    .login-hint{margin-top:1rem;font-size:.75rem;color:var(--text3);line-height:1.6}
+    .login-hint code{background:rgba(139,61,255,.15);padding:.15rem .5rem;border-radius:6px;
+      font-family:var(--ff-mono);color:var(--purple2)}
+  </style>
+</head>
+<body>
+
+  <!-- LOGIN GATE -->
+  <div class="login-overlay" id="loginOverlay">
+    <div class="login-box">
+      <div class="login-icon"><i class="bi bi-shield-lock-fill"></i></div>
+      <div class="login-title">HACKSTROM</div>
+      <div class="login-sub">Admin Access Only</div>
+      <form id="loginForm" autocomplete="off">
+        <div class="login-field">
+          <label>كلمة المرور</label>
+          <input type="password" id="loginPass" placeholder="••••••••" maxlength="32" autofocus>
+        </div>
+        <button type="submit" class="login-btn" id="loginBtn">دخول</button>
+        <div class="login-error" id="loginError"></div>
+      </form>
+      <div class="login-hint">
+        كلمة المرور الافتراضية: <code>hackstrom2026</code><br>
+        غيّرها من الكود بعد أول دخول
+      </div>
+    </div>
+  </div>
+
+  <!-- ADMIN CONTENT (hidden until login) -->
+  <div class="wrap" id="adminContent" style="display:none">
+
+    <div class="hdr">
+      <div class="hdr__brand">
+        <div class="hdr__icon"><i class="bi bi-shield-lock-fill"></i></div>
+        <div>
+          <div class="hdr__title">HACKSTROM</div>
+          <div class="hdr__sub">Admin Dashboard</div>
+        </div>
+      </div>
+      <div class="hdr__actions">
+        <button type="button" class="btn btn--out" id="btnImport"><i class="bi bi-upload"></i> استيراد</button>
+        <button type="button" class="btn btn--out" id="btnExport"><i class="bi bi-download"></i> تصدير JSON</button>
+        <button type="button" class="btn btn--pri" id="btnSample"><i class="bi bi-magic"></i> بيانات تجريبية</button>
+        <a href="./index.html#leaderboard" class="btn btn--out"><i class="bi bi-eye"></i> معاينة</a>
+        <input type="file" id="fileInput" accept=".json,application/json" style="display:none">
+      </div>
+    </div>
+
+    <div class="mini-stats">
+      <div class="mini"><div class="mini__num" id="stTotal">0</div><div class="mini__lbl">إجمالي اللاعبين</div></div>
+      <div class="mini"><div class="mini__num" id="stTop">0</div><div class="mini__lbl">أعلى نقاط</div></div>
+      <div class="mini"><div class="mini__num" id="stAvg">0</div><div class="mini__lbl">متوسط النقاط</div></div>
+      <div class="mini"><div class="mini__num" id="stSum">0</div><div class="mini__lbl">مجموع النقاط</div></div>
+    </div>
+
+    <!-- CLOUD SETTINGS (GitHub) -->
+    <div class="card" id="cloudCard">
+      <div class="card__title"><i class="bi bi-github"></i> الاتصال بـ GitHub (مزامنة مباشرة)</div>
+      <div class="form-grid">
+        <div class="field">
+          <label>GitHub Username</label>
+          <input type="text" id="ghUser" placeholder="اسم المستخدم">
+        </div>
+        <div class="field">
+          <label>اسم المستودع (Repository)</label>
+          <input type="text" id="ghRepo" placeholder="hackstrom">
+        </div>
+        <div class="field" style="grid-column:1/-1">
+          <label>Personal Access Token (PAT)</label>
+          <input type="password" id="ghToken" placeholder="ghp_...">
+        </div>
+      </div>
+      <div class="form-actions">
+        <button type="button" class="btn btn--pri" id="btnGhLoad"><i class="bi bi-cloud-download"></i> تحميل من GitHub</button>
+        <button type="button" class="btn btn--pri" id="btnGhSave"><i class="bi bi-cloud-upload"></i> حفظ في GitHub</button>
+      </div>
+      <div class="hint">
+        <b>الإعداد (مرة واحدة):</b><br>
+        1. افتح <b>github.com/settings/tokens</b> → Generate new token (classic)<br>
+        2. فعّل صلاحية <b>repo</b> ← انسخ التوكن<br>
+        3. ألصق البيانات هنا ← اضغط <b>حفظ في GitHub</b><br>
+        <small>✅ بعد الحفظ، Netlify يعيد النشر تلقائياً والزوار يشوفون التحديث فوراً</small>
+      </div>
+    </div>
+
+    <!-- ADD / EDIT FORM -->
+      <div class="card__title"><i class="bi bi-person-plus-fill"></i> <span id="formTitle">إضافة لاعب جديد</span></div>
+      <form id="playerForm" autocomplete="off">
+        <div class="form-grid">
+          <div class="field">
+            <label>الاسم *</label>
+            <input type="text" id="fName" placeholder="اسم اللاعب" required maxlength="40">
+          </div>
+          <div class="field">
+            <label>النقاط *</label>
+            <input type="number" id="fPoints" placeholder="0" required min="0" max="999999" value="">
+          </div>
+          <div class="field">
+            <label>الشارة</label>
+            <select id="fBadge">
+              <option value="">— بدون —</option>
+              <option value="👑">👑 تاج</option>
+              <option value="🥇">🥇 ذهبية</option>
+              <option value="🥈">🥈 فضية</option>
+              <option value="🥉">🥉 برونزية</option>
+              <option value="⭐">⭐ نجمة</option>
+              <option value="🔥">🔥 نار</option>
+              <option value="💀">💀 جمجمة</option>
+              <option value="🛡️">🛡️ درع</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>رابط الصورة (اختياري)</label>
+            <input type="url" id="fAvatar" placeholder="https://...">
+          </div>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn btn--pri" id="btnSubmit"><i class="bi bi-plus-lg"></i> إضافة لاعب</button>
+          <button type="button" class="btn btn--out" id="btnCancelEdit" style="display:none"><i class="bi bi-x-lg"></i> إلغاء</button>
+          <button type="button" class="btn btn--danger" id="btnClearAll"><i class="bi bi-trash3"></i> مسح الكل</button>
+        </div>
+        <div class="hint">البيانات تُحفظ تلقائياً في المتصفح. اضغط <b>تصدير JSON</b> لتحديث ملف الموقع.</div>
+      </form>
+    </div>
+
+    <div class="tbl-wrap">
+      <table>
+        <thead>
+          <tr><th>الترتيب</th><th>اللاعب</th><th>النقاط</th><th>الشارة</th><th>إجراءات</th></tr>
+        </thead>
+        <tbody id="tbody">
+          <tr><td colspan="5" class="empty"><i class="bi bi-inbox"></i>لا يوجد لاعبون — أضف أول لاعب من النموذج بالأعلى</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+  (function(){
+    "use strict";
+
+    /* ==================== AUTH GATE ==================== */
+    // SHA-256 hash of the password "hackstrom2026"
+    // To change password: run in browser console:
+    //   crypto.subtle.digest("SHA-256", new TextEncoder().encode("NEW_PASSWORD")).then(h=>console.log([...new Uint8Array(h)].map(b=>b.toString(16).padStart(2,"0")).join("")))
+    var PASS_HASH = "c8dae319d23278b2e55b18e4dd41533b5ea95e8bd3543e4a766860ce3c9c990b";
+    var MAX_ATTEMPTS = 5;
+    var LOCKOUT_TIME = 30000; // 30 seconds
+
+    var loginOverlay = document.getElementById("loginOverlay");
+    var loginForm = document.getElementById("loginForm");
+    var loginPass = document.getElementById("loginPass");
+    var loginError = document.getElementById("loginError");
+    var loginBtn = document.getElementById("loginBtn");
+    var adminContent = document.getElementById("adminContent");
+
+    // Check if already logged in this session
+    var session = null;
+    try{ session = sessionStorage.getItem("hs_admin_auth"); }catch(e){}
+    if(session === "ok"){
+      loginOverlay.classList.add("hide");
+      adminContent.style.display = "";
+    }
+
+    // SHA-256 hash function
+    function sha256(text){
+      if(window.crypto && window.crypto.subtle){
+        return window.crypto.subtle.digest("SHA-256", new TextEncoder().encode(text))
+          .then(function(buf){
+            return Array.from(new Uint8Array(buf)).map(function(b){ return b.toString(16).padStart(2,"0"); }).join("");
+          });
+      }
+      // Fallback: simple hash (less secure but works on http://)
+      return new Promise(function(resolve){
+        var h = 0;
+        for(var i = 0; i < text.length; i++){
+          h = ((h << 5) - h + text.charCodeAt(i)) | 0;
+        }
+        resolve(String(h));
+      });
+    }
+
+    // Rate limiting
+    var attempts = 0;
+    var lockedUntil = 0;
+
+    function getAttempts(){
+      try{ return parseInt(localStorage.getItem("hs_login_attempts") || "0", 10); }catch(e){ return 0; }
+    }
+    function setAttempts(n){
+      try{ localStorage.setItem("hs_login_attempts", String(n)); }catch(e){}
+    }
+    function getLockout(){
+      try{ return parseInt(localStorage.getItem("hs_login_lockout") || "0", 10); }catch(e){ return 0; }
+    }
+    function setLockout(t){
+      try{ localStorage.setItem("hs_login_lockout", String(t)); }catch(e){}
+    }
+
+    function showError(msg){
+      if(loginError) loginError.textContent = msg;
+    }
+
+    function lockLogin(seconds){
+      var end = Date.now() + seconds * 1000;
+      setLockout(end);
+      var remaining = seconds;
+      if(loginBtn) loginBtn.disabled = true;
+      var timer = setInterval(function(){
+        remaining--;
+        if(remaining <= 0){
+          clearInterval(timer);
+          setAttempts(0);
+          setLockout(0);
+          if(loginBtn) loginBtn.disabled = false;
+          showError("");
+        } else {
+          showError("🔒 مغلق " + remaining + " ثانية");
+        }
+      }, 1000);
+    }
+
+    // Login handler
+    if(loginForm){
+      loginForm.addEventListener("submit", function(e){
+        e.preventDefault();
+        var pass = loginPass ? loginPass.value : "";
+        if(!pass){ showError("⚠️ أدخل كلمة المرور"); return; }
+
+        // Check lockout
+        var lockEnd = getLockout();
+        if(Date.now() < lockEnd){
+          var secs = Math.ceil((lockEnd - Date.now()) / 1000);
+          showError("🔒 مغلق " + secs + " ثانية");
+          return;
+        }
+
+        // Check attempts
+        attempts = getAttempts();
+        if(attempts >= MAX_ATTEMPTS){
+          lockLogin(LOCKOUT_TIME / 1000);
+          return;
+        }
+
+        // Verify password
+        sha256(pass).then(function(hash){
+          if(hash === PASS_HASH){
+            // SUCCESS
+            try{ sessionStorage.setItem("hs_admin_auth", "ok"); }catch(e){}
+            setAttempts(0);
+            loginOverlay.classList.add("hide");
+            adminContent.style.display = "";
+          } else {
+            // FAIL
+            attempts++;
+            setAttempts(attempts);
+            var remaining = MAX_ATTEMPTS - attempts;
+            if(remaining <= 0){
+              showError("🔒 تجاوزت المحاولات — انتظر 30 ثانية");
+              lockLogin(LOCKOUT_TIME / 1000);
+            } else {
+              showError("❌ كلمة مرور خاطئة — متبقي " + remaining + " محاولات");
+              if(loginPass) loginPass.value = "";
+              if(loginPass) loginPass.focus();
+            }
+          }
+        });
+      });
+    }
+
+    // If not logged in, keep admin hidden but still initialize below
+    // The login overlay covers everything visually until authenticated
+    if(!session || session !== "ok"){
+      // Admin content stays hidden via display:none in HTML
+      // Login overlay is position:fixed and covers the page
+    }
+
+    var KEY = "hs_leaderboard_v2";
+    var players = [];
+    var editingIndex = -1;
+
+    function $(id){ return document.getElementById(id); }
+
+    function esc(s){
+      var d = document.createElement("div");
+      d.textContent = String(s);
+      return d.innerHTML;
+    }
+
+    function toast(msg){
+      var t = $("toast");
+      if(!t) return;
+      t.textContent = msg;
+      t.className = "toast show";
+      clearTimeout(t._tid);
+      t._tid = setTimeout(function(){ t.className = "toast"; }, 2500);
+    }
+
+    /* ---- SAVE / LOAD ---- */
+    function save(){
+      try{ localStorage.setItem(KEY, JSON.stringify(players)); }catch(e){}
+    }
+
+    function load(){
+      try{
+        var raw = localStorage.getItem(KEY);
+        if(raw){
+          var arr = JSON.parse(raw);
+          if(Array.isArray(arr)){ players = arr; return true; }
+        }
+      }catch(e){}
+      return false;
+    }
+
+    /* ---- RENDER ---- */
+    function render(){
+      players.sort(function(a,b){ return (b.points||0) - (a.points||0); });
+      players.forEach(function(p,i){ p.rank = i+1; });
+      save();
+
+      var tbody = $("tbody");
+      if(!tbody) return;
+
+      if(players.length === 0){
+        tbody.innerHTML = '<tr><td colspan="5" class="empty"><i class="bi bi-inbox"></i>لا يوجد لاعبون — أضف أول لاعب من النموذج بالأعلى</td></tr>';
+      } else {
+        var html = "";
+        for(var i = 0; i < players.length; i++){
+          var p = players[i];
+          var rc = p.rank <= 3 ? " t-rank--" + p.rank : "";
+          var av = "";
+          if(p.avatar){
+            av = '<img src="' + esc(p.avatar) + '" style="width:1.7rem;height:1.7rem;border-radius:50%;object-fit:cover;margin-inline-end:.5rem;vertical-align:middle" onerror="this.style.display=\'none\'">';
+          }
+          html += '<tr' + (i === editingIndex ? ' class="editing"' : '') + '>'
+            + '<td><span class="t-rank' + rc + '">#' + p.rank + '</span></td>'
+            + '<td>' + av + '<strong>' + esc(p.name || "?") + '</strong></td>'
+            + '<td><span class="t-pts">' + (p.points||0).toLocaleString() + '</span></td>'
+            + '<td style="font-size:1.2rem">' + (p.badge || "—") + '</td>'
+            + '<td><div class="t-actions">'
+            + '<button type="button" class="icon-btn icon-btn--up" data-act="up" data-i="' + i + '" title="لأعلى"><i class="bi bi-arrow-up"></i></button>'
+            + '<button type="button" class="icon-btn" data-act="edit" data-i="' + i + '" title="تعديل"><i class="bi bi-pencil"></i></button>'
+            + '<button type="button" class="icon-btn icon-btn--del" data-act="del" data-i="' + i + '" title="حذف"><i class="bi bi-trash3"></i></button>'
+            + '</div></td></tr>';
+        }
+        tbody.innerHTML = html;
+      }
+
+      updateStats();
+    }
+
+    function updateStats(){
+      var n = players.length;
+      var sum = 0, top = 0;
+      for(var i = 0; i < n; i++){
+        var v = players[i].points || 0;
+        sum += v;
+        if(v > top) top = v;
+      }
+      var el;
+      el = $("stTotal"); if(el) el.textContent = n;
+      el = $("stTop");   if(el) el.textContent = top.toLocaleString();
+      el = $("stAvg");   if(el) el.textContent = n ? Math.round(sum/n).toLocaleString() : "0";
+      el = $("stSum");   if(el) el.textContent = sum.toLocaleString();
+    }
+
+    /* ---- FORM ---- */
+    function resetForm(){
+      editingIndex = -1;
+      var f = $("playerForm");
+      if(f) f.reset();
+      var b = $("btnSubmit");
+      if(b) b.innerHTML = '<i class="bi bi-plus-lg"></i> إضافة لاعب';
+      var c = $("btnCancelEdit");
+      if(c) c.style.display = "none";
+      var ft = $("formTitle");
+      if(ft) ft.textContent = "إضافة لاعب جديد";
+      render();
+    }
+
+    var form = $("playerForm");
+    if(form){
+      form.addEventListener("submit", function(e){
+        e.preventDefault();
+        var name = ($("fName").value || "").trim();
+        var pts = parseInt($("fPoints").value, 10);
+
+        if(!name){ toast("⚠️ أدخل اسم اللاعب"); return; }
+        if(isNaN(pts) || pts < 0){ toast("⚠️ أدخل نقاطاً صحيحة"); return; }
+
+        var badge = $("fBadge").value || "";
+        var avatar = ($("fAvatar").value || "").trim();
+
+        if(editingIndex >= 0 && editingIndex < players.length){
+          players[editingIndex].name = name;
+          players[editingIndex].points = pts;
+          players[editingIndex].badge = badge;
+          players[editingIndex].avatar = avatar;
+          toast("✅ تم تعديل " + name);
+        } else {
+          players.push({ name: name, points: pts, badge: badge, avatar: avatar, rank: 0 });
+          toast("✅ تمت إضافة " + name);
+        }
+
+        resetForm();
+      });
+    }
+
+    /* ---- TABLE ACTIONS ---- */
+    var tbody = $("tbody");
+    if(tbody){
+      tbody.addEventListener("click", function(e){
+        var btn = e.target.closest ? e.target.closest("[data-act]") : null;
+        if(!btn) return;
+        var act = btn.getAttribute("data-act");
+        var i = parseInt(btn.getAttribute("data-i"), 10);
+        if(isNaN(i) || i < 0 || i >= players.length) return;
+
+        if(act === "del"){
+          var nm = players[i].name;
+          players.splice(i, 1);
+          if(editingIndex === i) resetForm();
+          else if(editingIndex > i) editingIndex--;
+          render();
+          toast("🗑️ حُذف " + nm);
+        }
+        else if(act === "edit"){
+          editingIndex = i;
+          var p = players[i];
+          $("fName").value = p.name || "";
+          $("fPoints").value = p.points || 0;
+          $("fBadge").value = p.badge || "";
+          $("fAvatar").value = p.avatar || "";
+          $("btnSubmit").innerHTML = '<i class="bi bi-check-lg"></i> حفظ التعديل';
+          $("btnCancelEdit").style.display = "";
+          $("formTitle").textContent = "تعديل: " + (p.name || "");
+          render();
+          $("fName").focus();
+        }
+        else if(act === "up"){
+          if(i > 0){
+            var tmp = players[i];
+            players[i] = players[i-1];
+            players[i-1] = tmp;
+            if(editingIndex === i) editingIndex = i-1;
+            else if(editingIndex === i-1) editingIndex = i;
+            render();
+            toast("⬆️ تم التحريك");
+          }
+        }
+      });
+    }
+
+    var btnCancelEdit = $("btnCancelEdit");
+    if(btnCancelEdit) btnCancelEdit.addEventListener("click", resetForm);
+
+    /* ---- CLEAR ALL ---- */
+    var btnClearAll = $("btnClearAll");
+    if(btnClearAll) btnClearAll.addEventListener("click", function(){
+      if(players.length === 0){ toast("القائمة فارغة أصلاً"); return; }
+      if(confirm("هل أنت متأكد من مسح جميع اللاعبين؟")){
+        players = [];
+        resetForm();
+        toast("🗑️ تم مسح الكل");
+      }
+    });
+
+    /* ---- EXPORT ---- */
+    var btnExport = $("btnExport");
+    if(btnExport) btnExport.addEventListener("click", function(){
+      if(players.length === 0){ toast("⚠️ لا توجد بيانات للتصدير"); return; }
+      players.sort(function(a,b){ return (b.points||0) - (a.points||0); });
+      players.forEach(function(p,i){ p.rank = i+1; });
+      var blob = new Blob([JSON.stringify(players, null, 2)], {type:"application/json"});
+      var a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = "leaderboard.json";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(function(){ URL.revokeObjectURL(a.href); }, 1000);
+      toast("📤 تم تصدير leaderboard.json");
+    });
+
+    /* ---- IMPORT ---- */
+    var btnImport = $("btnImport");
+    if(btnImport) btnImport.addEventListener("click", function(){ $("fileInput").click(); });
+
+    var fileInput = $("fileInput");
+    if(fileInput) fileInput.addEventListener("change", function(e){
+      var file = e.target.files && e.target.files[0];
+      if(!file) return;
+      var reader = new FileReader();
+      reader.onload = function(ev){
+        try{
+          var data = JSON.parse(ev.target.result);
+          if(Array.isArray(data)){
+            players = data;
+            resetForm();
+            toast("📥 استُورد " + data.length + " لاعب");
+          } else {
+            toast("⚠️ ملف غير صالح");
+          }
+        }catch(err){
+          toast("⚠️ خطأ في قراءة الملف");
+        }
+      };
+      reader.readAsText(file);
+      e.target.value = "";
+    });
+
+    /* ---- SAMPLE DATA ---- */
+    var btnSample = $("btnSample");
+    if(btnSample) btnSample.addEventListener("click", function(){
+      if(players.length > 0 && !confirm("استبدال البيانات الحالية ببيانات تجريبية؟")) return;
+      players = [
+        {name:"ShadowX",   points:9850, badge:"👑", avatar:"", rank:0},
+        {name:"CyberWolf", points:8720, badge:"🥇", avatar:"", rank:0},
+        {name:"ZeroCool",  points:7460, badge:"🥈", avatar:"", rank:0},
+        {name:"NeonHacker",points:6890, badge:"🥉", avatar:"", rank:0},
+        {name:"DarkPhoenix",points:5340,badge:"", avatar:"", rank:0},
+        {name:"GhostByte", points:4810, badge:"", avatar:"", rank:0},
+        {name:"CipherKing",points:3950, badge:"", avatar:"", rank:0},
+        {name:"BinaryQueen",points:3200,badge:"", avatar:"", rank:0},
+        {name:"NullPointer",points:2780,badge:"", avatar:"", rank:0},
+        {name:"RootAccess",points:1960, badge:"", avatar:"", rank:0}
+      ];
+      resetForm();
+      toast("✨ تم تحميل بيانات تجريبية");
+    });
+
+    /* ---- INIT ---- */
+    load();
+    render();
+
+    /* ==================== GitHub API CLOUD ==================== */
+    var GH_USER_KEY = "hs_gh_user";
+    var GH_REPO_KEY = "hs_gh_repo";
+    var GH_TOKEN_KEY = "hs_gh_token";
+    var GH_API = "https://api.github.com";
+    var GH_FILE_PATH = "data/leaderboard.json";
+    var GH_BRANCH = "main";
+
+    function ghUser(){ var el = $("ghUser"); return el ? el.value.trim() : ""; }
+    function ghRepo(){ var el = $("ghRepo"); return el ? el.value.trim() : ""; }
+    function ghToken(){ var el = $("ghToken"); return el ? el.value.trim() : ""; }
+
+    function loadGhSettings(){
+      try{
+        var u = localStorage.getItem(GH_USER_KEY);
+        var r = localStorage.getItem(GH_REPO_KEY);
+        var t = localStorage.getItem(GH_TOKEN_KEY);
+        if(u) $("ghUser").value = u;
+        if(r) $("ghRepo").value = r;
+        if(t) $("ghToken").value = t;
+      }catch(e){}
+    }
+
+    function saveGhSettings(){
+      try{
+        localStorage.setItem(GH_USER_KEY, ghUser());
+        localStorage.setItem(GH_REPO_KEY, ghRepo());
+        localStorage.setItem(GH_TOKEN_KEY, ghToken());
+      }catch(e){}
+    }
+
+    function ghHeaders(){
+      return {
+        "Authorization": "Bearer " + ghToken(),
+        "Accept": "application/vnd.github+json",
+        "Content-Type": "application/json"
+      };
+    }
+
+    function ghFileUrl(){
+      return GH_API + "/repos/" + ghUser() + "/" + ghRepo() + "/contents/" + GH_FILE_PATH;
+    }
+
+    /* ---- Load from GitHub ---- */
+    var btnGhLoad = $("btnGhLoad");
+    if(btnGhLoad) btnGhLoad.addEventListener("click", function(){
+      if(!ghUser() || !ghRepo()){ toast("⚠️ أدخل Username و اسم المستودع"); return; }
+
+      toast("⏳ جاري التحميل من GitHub...");
+      // Try main branch first, then master
+      fetch(ghFileUrl() + "?ref=" + GH_BRANCH)
+        .then(function(r){
+          if(!r.ok && GH_BRANCH === "main"){
+            GH_BRANCH = "master";
+            return fetch(ghFileUrl() + "?ref=master");
+          }
+          return r;
+        })
+        .then(function(r){ return r.json(); })
+        .then(function(d){
+          if(d && d.content){
+            // GitHub returns base64 encoded content
+            var decoded = atob(d.content.replace(/\n/g, ""));
+            var data = JSON.parse(decoded);
+            if(Array.isArray(data)){
+              players = data;
+              resetForm();
+              toast("✅ تحمّل " + players.length + " لاعب من GitHub");
+            } else {
+              toast("❌ البيانات ليست مصفوفة");
+            }
+          } else if(d && d.message){
+            toast("❌ خطأ: " + d.message);
+          } else {
+            toast("❌ لم يُعثر على الملف");
+          }
+        })
+        .catch(function(err){ toast("❌ خطأ: " + err.message); });
+    });
+
+    /* ---- Save to GitHub ---- */
+    var btnGhSave = $("btnGhSave");
+    if(btnGhSave) btnGhSave.addEventListener("click", function(){
+      if(!ghUser() || !ghRepo() || !ghToken()){ toast("⚠️ أدخل جميع البيانات أولاً"); return; }
+      if(players.length === 0){ toast("⚠️ لا توجد بيانات للحفظ"); return; }
+
+      // Sort and rank
+      players.sort(function(a,b){ return (b.points||0) - (a.points||0); });
+      players.forEach(function(p,i){ p.rank = i+1; });
+      render();
+
+      var json = JSON.stringify(players, null, 2);
+      var b64 = btoa(unescape(encodeURIComponent(json)));
+      toast("⏳ جاري الحفظ في GitHub...");
+
+      // Step 1: Get current file SHA (required for update)
+      fetch(ghFileUrl() + "?ref=" + GH_BRANCH, { headers: ghHeaders() })
+        .then(function(r){
+          if(!r.ok && GH_BRANCH === "main"){
+            GH_BRANCH = "master";
+            return fetch(ghFileUrl() + "?ref=master", { headers: ghHeaders() });
+          }
+          return r;
+        })
+        .then(function(r){ return r.json(); })
+        .then(function(fileData){
+          var sha = fileData && fileData.sha ? fileData.sha : undefined;
+
+          // Step 2: Create or update file
+          var body = {
+            message: "🏆 Update leaderboard — " + new Date().toLocaleString(),
+            content: b64,
+            branch: GH_BRANCH
+          };
+          if(sha) body.sha = sha;
+
+          return fetch(ghFileUrl(), {
+            method: "PUT",
+            headers: ghHeaders(),
+            body: JSON.stringify(body)
+          });
+        })
+        .then(function(r){ return r.json(); })
+        .then(function(d){
+          if(d && d.commit && d.commit.sha){
+            saveGhSettings();
+            toast("✅ تم الحفظ! Commit: " + d.commit.sha.substring(0,7) + " — Netlify سيعيد النشر تلقائياً");
+          } else if(d && d.message){
+            toast("❌ خطأ: " + d.message);
+          } else {
+            toast("❌ رد غير متوقع");
+          }
+        })
+        .catch(function(err){ toast("❌ خطأ: " + err.message); });
+    });
+
+    // Auto-save settings on input change
+    ["ghUser","ghRepo","ghToken"].forEach(function(id){
+      var el = $(id);
+      if(el) el.addEventListener("change", saveGhSettings);
+    });
+
+    // Load saved settings on startup
+    loadGhSettings();
+
+  })();
+  </script>
+</body>
+</html>
