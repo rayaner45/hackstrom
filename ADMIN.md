@@ -7,7 +7,26 @@
   - the admin HTML is **never** sent to unauthenticated visitors (401 login page instead).
 - The public mirror **https://hackstrom.pages.dev** does **not** contain the admin page.
 
+## Public mirror (pages.dev)
+`https://hackstrom.pages.dev` is a **static, admin-free** mirror.
+Its upload contains a `_redirects` file that sends `/admin`, `/admin.html`
+and `/admin/*` back to `/` (302). The admin page is **never** uploaded there.
+
+Rebuild + deploy the mirror with:
+```bash
+rm -rf /tmp/hs-public
+mkdir -p /tmp/hs-public/src/css /tmp/hs-public/src/js /tmp/hs-public/data
+cp index.html robots.txt _headers /tmp/hs-public/
+cp data/leaderboard.json /tmp/hs-public/data/
+cp src/css/main.css /tmp/hs-public/src/css/
+cp src/js/main.js src/js/loader.js /tmp/hs-public/src/js/
+cp deploy/pages/admin.html /tmp/hs-public/admin.html   # harmless redirect page
+cp deploy/pages/_redirects  /tmp/hs-public/_redirects
+npx wrangler pages deploy /tmp/hs-public --project-name hackstrom --branch main
+```
+
 ## Secrets (Cloudflare Worker)
+
 | Secret | Purpose |
 |---|---|
 | `ADMIN_PASSWORD_HASH` | hex SHA‑256 of the admin password |

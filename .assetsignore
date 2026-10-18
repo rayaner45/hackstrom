@@ -7,3 +7,4 @@ wrangler.toml
 wrangler.jsonc
 node_modules
 src/worker.js
+deploy
