@@ -1,10 +1,30 @@
-# Files never uploaded as static assets
-.git
-.gitignore
-.assetsignore
-.wrangler
-wrangler.toml
-wrangler.jsonc
-node_modules
-src/worker.js
-scripts
+# =====================================================================
+#  HACKSTROM — asset publishing policy
+#
+#  Deny EVERYTHING by default, then allow only the real public site
+#  files. This guarantees that internal files (worker source, docs,
+#  configs, scripts, .git, .wrangler, …) can never be served.
+# =====================================================================
+
+# --- deny all ---
+*
+
+# --- public pages / config ---
+!index.html
+!admin.html
+!404.html
+!robots.txt
+!_headers
+
+# --- public assets ---
+!src/
+!src/css/
+!src/css/main.css
+
+!src/js/
+!src/js/main.js
+!src/js/loader.js
+!src/js/admin.js
+
+!data/
+!data/leaderboard.json
