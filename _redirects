@@ -1,13 +1,13 @@
-# Force HTTPS
-http://hackstrom.netlify.app/*  https://hackstrom.netlify.app/:splat  301!
-https://hackstrom.netlify.app/*  https://hackstrom.netlify.app/:splat  200
-
-# Security: block common attack paths
-/admin.html.bak  /  403
-/admin.php  /  403
-/*.env  /  403
-/*.git/*  /  403
-/wp-admin/*  /  403
-/wp-login*  /  403
-/.htaccess  /  403
-/phpmyadmin/*  /  403
+# Block common attack paths (return 404 - hides existence)
+/.env                /  404
+/.git/*              /  404
+/.git/config         /  404
+/admin.php           /  404
+/.htaccess           /  404
+/wp-admin/*          /  404
+/wp-login            /  404
+/wp-login.php        /  404
+/phpmyadmin/*        /  404
+/xmlrpc.php          /  404
+/config.php          /  404
+/.DS_Store           /  404
