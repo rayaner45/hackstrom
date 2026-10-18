@@ -822,8 +822,11 @@
         .then(function(r){ return r.json(); })
         .then(function(d){
           if(d && d.content){
-            // GitHub returns base64 encoded content
-            var decoded = atob(d.content.replace(/\n/g, ""));
+            // GitHub returns base64 encoded content — decode UTF-8 properly
+            var bstr = atob(d.content.replace(/\n/g, ""));
+            var bytes = new Uint8Array(bstr.length);
+            for(var i=0;i<bstr.length;i++){ bytes[i] = bstr.charCodeAt(i); }
+            var decoded = new TextDecoder("utf-8").decode(bytes);
             var data = JSON.parse(decoded);
             if(Array.isArray(data)){
               players = data;
