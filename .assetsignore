@@ -1,0 +1,7 @@
+# Files never uploaded as static assets
+.git
+.gitignore
+.assetsignore
+wrangler.toml
+wrangler.jsonc
+node_modules

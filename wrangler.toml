@@ -1,0 +1,6 @@
+name = "hackstrom"
+compatibility_date = "2025-01-01"
+
+# Serve the repository as static assets (no Worker script needed)
+[assets]
+directory = "."
