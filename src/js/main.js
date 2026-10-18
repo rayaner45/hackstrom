@@ -271,9 +271,17 @@
       var nameEl = card.querySelector(".lb__podium-name");
       var ptsEl = card.querySelector(".lb__podium-points");
       var badgeEl = card.querySelector(".lb__podium-badge");
+      var avEl = card.querySelector(".lb__podium-avatar");
       if (nameEl) nameEl.textContent = player.name;
       if (ptsEl) ptsEl.textContent = player.points.toLocaleString() + " pts";
       if (badgeEl && player.badge) badgeEl.textContent = player.badge;
+      if (avEl) {
+        if (player.avatar) {
+          avEl.innerHTML = '<img src="' + String(player.avatar).replace(/"/g, "&quot;") + '" alt="">';
+        } else {
+          avEl.innerHTML = '<i class="bi bi-person-fill"></i>';
+        }
+      }
     });
 
     // Fill table
@@ -283,9 +291,9 @@
     data.forEach(function (p) {
       var tr = document.createElement("tr");
       var rankClass = p.rank <= 3 ? " lb__rank--" + p.rank : "";
-      var avatarHTML = p.avatar
-        ? '<img src="' + p.avatar + '" alt="" class="lb__player-avatar" onerror="this.style.display=\'none\'">'
-        : '<span class="lb__player-avatar"><i class="bi bi-person-fill"></i></span>';
+      var avatarHTML = '<span class="lb__player-avatar">' + (p.avatar
+        ? '<img src="' + String(p.avatar).replace(/"/g, "&quot;") + '" alt="" onerror="this.remove()">'
+        : '<i class="bi bi-person-fill"></i>') + "</span>";
 
       tr.innerHTML =
         '<td><span class="lb__rank' + rankClass + '">#' + p.rank + "</span></td>" +

@@ -149,6 +149,39 @@
     .login-hint{margin-top:1rem;font-size:.75rem;color:var(--text3);line-height:1.6}
     .login-hint code{background:rgba(139,61,255,.15);padding:.15rem .5rem;border-radius:6px;
       font-family:var(--ff-mono);color:var(--purple2)}
+
+    /* ---- AVATAR FIELD ---- */
+    .avatar-row{display:flex;gap:1rem;align-items:flex-start}
+    .avatar-preview{flex:0 0 auto;width:72px;height:72px;border-radius:50%;overflow:hidden;
+      background:rgba(139,61,255,.12);border:2px solid var(--border);
+      display:grid;place-items:center;font-size:1.8rem;color:var(--text3);transition:.25s}
+    .avatar-preview.has-img{border-color:var(--purple);box-shadow:0 0 25px rgba(139,61,255,.35)}
+    .avatar-preview img{width:100%;height:100%;object-fit:cover}
+    .avatar-controls{flex:1;min-width:0;display:flex;flex-direction:column;gap:.6rem}
+    .avatar-controls input[type=text]{width:100%;padding:.75rem 1rem;border-radius:var(--r1);
+      border:1px solid var(--border);background:rgba(7,7,15,.7);color:var(--text);
+      font-family:var(--ff-body);font-size:.9rem;outline:none;transition:.25s;direction:ltr;text-align:left}
+    .avatar-controls input[type=text]:focus{border-color:var(--purple);box-shadow:0 0 20px rgba(139,61,255,.25)}
+    .avatar-btns{display:flex;flex-wrap:wrap;gap:.5rem}
+    .avatar-btns .btn{padding:.55rem .9rem;font-size:.78rem}
+
+    /* ---- MODAL ---- */
+    .modal-bg{position:fixed;inset:0;z-index:200;display:none;background:rgba(4,4,10,.85);
+      backdrop-filter:blur(8px);padding:1.5rem;overflow-y:auto}
+    .modal-bg.open{display:flex;align-items:center;justify-content:center}
+    .modal{width:min(620px,100%);border-radius:var(--r2);border:1px solid var(--border2);
+      background:var(--surface);padding:1.8rem;box-shadow:0 40px 120px -40px rgba(139,61,255,.6)}
+    .modal h3{font-family:var(--ff-head);font-size:1rem;margin-bottom:1rem;
+      display:flex;align-items:center;gap:.6rem;color:var(--purple2)}
+    .modal ol{margin:0 0 1rem 1.2rem;padding:0;line-height:2;font-size:.92rem}
+    .modal ol li{margin-bottom:.2rem}
+    .modal code{background:rgba(0,212,255,.1);color:var(--cyan);padding:.15rem .5rem;
+      border-radius:6px;font-family:var(--ff-mono);font-size:.82rem;direction:ltr;
+      display:inline-block;word-break:break-all}
+    .modal .note{background:rgba(255,61,110,.08);border-inline-start:3px solid var(--red);
+      padding:.7rem 1rem;border-radius:8px;font-size:.85rem;color:var(--text2);margin-top:.5rem}
+    .modal-close{margin-top:1.2rem;width:100%}
+    @media(max-width:560px){.avatar-row{flex-direction:column;align-items:center}}
   </style>
 </head>
 <body>
@@ -171,6 +204,29 @@
         كلمة المرور الافتراضية: <code>hackstrom2026</code><br>
         غيّرها من الكود بعد أول دخول
       </div>
+    </div>
+  </div>
+
+  <!-- DISCORD AVATAR HELP MODAL -->
+  <div class="modal-bg" id="discordHelpModal">
+    <div class="modal">
+      <h3><i class="bi bi-discord"></i> كيف أجيب صورة حساب Discord؟</h3>
+      <ol>
+        <li>افتح Discord في <b>المتصفح</b> (وليس التطبيق): <code>discord.com/app</code></li>
+        <li>اضغط على اسم المستخدم → تظهر بطاقة ملفه الشخصي</li>
+        <li>اضغط على <b>الصورة</b> لتكبيرها</li>
+        <li>اضغط <b>الزر الأيمن</b> على الصورة</li>
+        <li>اختر <b>«نسخ عنوان الصورة»</b> (Copy image address)</li>
+        <li>ارجع هنا والصق الرابط في حقل الصورة</li>
+      </ol>
+      <div class="note">
+        <b>ملاحظة:</b> الرابط يبدو هكذا:<br>
+        <code style="margin-top:.4rem">https://cdn.discordapp.com/avatars/123.../abc....png?size=128</code>
+        <br><br>
+        إذا التطبيق (Desktop) ما يسمح بالنسخ، استخدم <b>رفع من الجهاز</b>:
+        <br>• حمّل الصورة أولاً (زر أيمن → حفظ الصورة)<br>• ثم اضغط <b>«رفع من الجهاز»</b>
+      </div>
+      <button type="button" class="btn btn--pri modal-close" data-close-modal>تمام، فهمت</button>
     </div>
   </div>
 
@@ -232,6 +288,7 @@
     </div>
 
     <!-- ADD / EDIT FORM -->
+    <div class="card">
       <div class="card__title"><i class="bi bi-person-plus-fill"></i> <span id="formTitle">إضافة لاعب جديد</span></div>
       <form id="playerForm" autocomplete="off">
         <div class="form-grid">
@@ -257,9 +314,28 @@
               <option value="🛡️">🛡️ درع</option>
             </select>
           </div>
-          <div class="field">
-            <label>رابط الصورة (اختياري)</label>
-            <input type="url" id="fAvatar" placeholder="https://...">
+          <div class="field" style="grid-column:1/-1">
+            <label>صورة اللاعب (اختياري)</label>
+            <div class="avatar-row">
+              <div class="avatar-preview" id="avatarPreview">
+                <i class="bi bi-person-fill"></i>
+              </div>
+              <div class="avatar-controls">
+                <input type="text" id="fAvatar" placeholder="الصق رابط صورة Discord أو أي رابط صورة">
+                <div class="avatar-btns">
+                  <input type="file" id="fAvatarFile" accept="image/*" hidden>
+                  <button type="button" class="btn btn--out" id="btnPickAvatar">
+                    <i class="bi bi-upload"></i> رفع من الجهاز
+                  </button>
+                  <button type="button" class="btn btn--danger" id="btnClearAvatar" style="display:none">
+                    <i class="bi bi-x-lg"></i> إزالة
+                  </button>
+                  <button type="button" class="btn btn--out" id="btnDiscordHelp">
+                    <i class="bi bi-discord"></i> كيف أجيب صورة Discord؟
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         <div class="form-actions">
@@ -526,6 +602,7 @@
       if(c) c.style.display = "none";
       var ft = $("formTitle");
       if(ft) ft.textContent = "إضافة لاعب جديد";
+      if(typeof setPreview === "function") setPreview("");
       render();
     }
 
@@ -582,6 +659,7 @@
           $("fPoints").value = p.points || 0;
           $("fBadge").value = p.badge || "";
           $("fAvatar").value = p.avatar || "";
+          if(typeof setPreview === "function") setPreview(p.avatar || "");
           $("btnSubmit").innerHTML = '<i class="bi bi-check-lg"></i> حفظ التعديل';
           $("btnCancelEdit").style.display = "";
           $("formTitle").textContent = "تعديل: " + (p.name || "");
@@ -828,6 +906,97 @@
 
     // Load saved settings on startup
     loadGhSettings();
+
+    /* ---- DISCORD HELP MODAL ---- */
+    var discordModal = $("discordHelpModal");
+    var btnDiscordHelp = $("btnDiscordHelp");
+
+    function closeModal(){ if(discordModal) discordModal.classList.remove("open"); }
+
+    if(btnDiscordHelp && discordModal){
+      btnDiscordHelp.addEventListener("click", function(){ discordModal.classList.add("open"); });
+      discordModal.addEventListener("click", function(e){
+        if(e.target === discordModal) closeModal();
+        if(e.target.closest && e.target.closest("[data-close-modal]")) closeModal();
+      });
+      document.addEventListener("keydown", function(e){ if(e.key === "Escape") closeModal(); });
+    }
+
+    /* ---- AVATAR UPLOAD + PREVIEW ---- */
+    var fAvatar = $("fAvatar");
+    var fAvatarFile = $("fAvatarFile");
+    var btnPickAvatar = $("btnPickAvatar");
+    var btnClearAvatar = $("btnClearAvatar");
+    var avatarPreview = $("avatarPreview");
+
+    function setPreview(src){
+      if(!avatarPreview) return;
+      if(src){
+        avatarPreview.innerHTML = '<img src="' + String(src).replace(/"/g, "&quot;") + '" alt="">';
+        avatarPreview.classList.add("has-img");
+        if(btnClearAvatar) btnClearAvatar.style.display = "";
+      } else {
+        avatarPreview.innerHTML = '<i class="bi bi-person-fill"></i>';
+        avatarPreview.classList.remove("has-img");
+        if(btnClearAvatar) btnClearAvatar.style.display = "none";
+      }
+    }
+
+    if(btnPickAvatar && fAvatarFile){
+      btnPickAvatar.addEventListener("click", function(){ fAvatarFile.click(); });
+
+      fAvatarFile.addEventListener("change", function(){
+        var file = fAvatarFile.files && fAvatarFile.files[0];
+        if(!file) return;
+        if(!/^image\//.test(file.type)){ toast("⚠️ اختر ملف صورة"); return; }
+        if(file.size > 8 * 1024 * 1024){ toast("⚠️ الصورة كبيرة جداً (الحد 8MB)"); return; }
+
+        var reader = new FileReader();
+        reader.onload = function(ev){
+          var img = new Image();
+          img.onload = function(){
+            var MAX = 160;
+            var side = Math.min(img.width, img.height);
+            var sx = (img.width - side) / 2;
+            var sy = (img.height - side) / 2;
+            var out = Math.min(side, MAX) || MAX;
+
+            var canvas = document.createElement("canvas");
+            canvas.width = out; canvas.height = out;
+            var ctx = canvas.getContext("2d");
+            ctx.drawImage(img, sx, sy, side, side, 0, 0, out, out);
+
+            var dataUrl = canvas.toDataURL("image/jpeg", 0.82);
+            if(fAvatar) fAvatar.value = dataUrl;
+            setPreview(dataUrl);
+            toast("✅ تم تحميل الصورة (" + Math.round(dataUrl.length / 1024) + " KB)");
+          };
+          img.onerror = function(){ toast("❌ تعذّر قراءة الصورة"); };
+          img.src = ev.target.result;
+        };
+        reader.onerror = function(){ toast("❌ خطأ في قراءة الملف"); };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    if(btnClearAvatar){
+      btnClearAvatar.addEventListener("click", function(){
+        if(fAvatar) fAvatar.value = "";
+        if(fAvatarFile) fAvatarFile.value = "";
+        setPreview("");
+      });
+    }
+
+    if(fAvatar){
+      var avatarTimer = null;
+      fAvatar.addEventListener("input", function(){
+        var v = fAvatar.value.trim();
+        // Instant preview for data URLs (uploaded images)
+        if(v.indexOf("data:image/") === 0){ setPreview(v); return; }
+        clearTimeout(avatarTimer);
+        avatarTimer = setTimeout(function(){ setPreview(fAvatar.value.trim()); }, 700);
+      });
+    }
 
   })();
   </script>
