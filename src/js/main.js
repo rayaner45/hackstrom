@@ -230,7 +230,7 @@
   function loadLeaderboard() {
     // Priority 1: GitHub raw (public, no auth needed)
     if (GH_USER && GH_REPO) {
-      var url = "https://raw.githubusercontent.com/" + GH_USER + "/" + GH_REPO + "/" + GH_BRANCH + "/data/leaderboard.json";
+      var url = "https://raw.githubusercontent.com/" + GH_USER + "/" + GH_REPO + "/" + GH_BRANCH + "/data/leaderboard.json?v=" + Date.now();
 
       fetch(url)
         .then(function(r) { if (!r.ok) throw new Error("github"); return r.json(); })
